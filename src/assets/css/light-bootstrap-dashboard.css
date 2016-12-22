@@ -229,6 +229,7 @@ input:focus {
   overflow: hidden;
   width: 260px;
   z-index: 4;
+  background-color: #29211d;
 }
 .sidebar .sidebar-background {
   position: absolute;
