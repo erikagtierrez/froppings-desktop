@@ -3392,3 +3392,16 @@ body > .navbar-collapse[data-color="purple"]:after {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+.button-dashboard{
+    margin: 0;
+    color: #fff;
+    width: 100%;
+    height: 150px;
+    font-weight: 100;
+    font-size: 2.3vw;
+    background-color: #6d1d46;
+    border-color: transparent;
+    opacity: 1;
+     margin-bottom: 6%;
+}

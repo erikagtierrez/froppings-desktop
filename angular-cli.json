@@ -27,8 +27,8 @@
        "assets/css/pe-icon-7-stroke.css"
       ],
       "scripts": [
-         "assets/js/bootstrap.min.js",
          "assets/js/jquery-1.10.2.js",
+         "assets/js/bootstrap.min.js",
          "assets/js/bootstrap-checkbox-radio-switch.js",
          "assets/js/chartist.min.js",
          "assets/js/bootstrap-notify.js",
