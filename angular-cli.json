@@ -18,9 +18,23 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/css/bootstrap.min.css" ,
+       "assets/css/animate.min.css",
+       "assets/css/light-bootstrap-dashboard.css",
+       "assets/css/demo.css" ,
+       "assets/css/font-awesome.min.css",
+       "assets/css/pe-icon-7-stroke.css"
       ],
-      "scripts": [],
+      "scripts": [
+         "assets/js/bootstrap.min.js",
+         "assets/js/jquery-1.10.2.js",
+         "assets/js/bootstrap-checkbox-radio-switch.js",
+         "assets/js/chartist.min.js",
+         "assets/js/bootstrap-notify.js",
+         "assets/js/light-bootstrap-dashboard.js",
+         "assets/js/demo.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
