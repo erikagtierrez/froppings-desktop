@@ -1,8 +1,5 @@
 {
     "name": "froppings-desktop",
     "version": "0.1.0",
-    "main": "electron.js",
-    "devDependencies": {
-        "electron": "^1.4.1"
-    }
+    "main": "electron.js"
 }

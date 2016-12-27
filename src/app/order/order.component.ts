@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-const BrowserWindow = require('electron').remote.BrowserWindow
 
 @Component({
   selector: 'app-order',

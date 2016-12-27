@@ -9,6 +9,7 @@ const BrowserWindow = electron.BrowserWindow
 let win
 
 console.log(app);
+console.log("Hola");
 
 function createWindow() {
     // Create the browser window.
