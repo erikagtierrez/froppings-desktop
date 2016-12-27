@@ -381,7 +381,7 @@ input:focus {
 }
 
 .sidebar .nav i {
-    font-size: 28px;
+    font-size: 24px;
     float: left;
     margin-right: 15px;
     line-height: 30px;
@@ -1808,6 +1808,21 @@ select {
 .navbar .navbar-nav>li>a.btn {
     margin: 15px 3px;
     padding: 8px 16px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 6px 16px;
+}
+
+.sidebar .nav {
+    margin-top: 5px;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 93%;
 }
 
 .navbar .navbar-nav>li>a.btn-round {

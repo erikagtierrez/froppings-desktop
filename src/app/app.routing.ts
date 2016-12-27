@@ -1,3 +1,8 @@
+import { OrderComponent } from './order/order.component';
+import { PointsComponent } from './points/points.component';
+import { IngredientsComponent } from './ingredients/ingredients.component';
+import { RecipeComponent } from './recipe/recipe.component';
+import { ProductsComponent } from './products/products.component';
 import { MAIN_ROUTING } from './main/main.routing';
 import { MainPanelComponent } from './main-panel/main-panel.component';
 import { MAIN_PANEL_ROUTES } from './main-panel/main-panel.routing';
