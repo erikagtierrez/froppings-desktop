@@ -1,3 +1,4 @@
+import { NewproductComponent } from './newproduct/newproduct.component';
 import { OrderComponent } from './order/order.component';
 import { PointsComponent } from './points/points.component';
 import { IngredientsComponent } from './ingredients/ingredients.component';
@@ -14,7 +15,8 @@ const APP_ROUTES : Routes=[
     { path: '', redirectTo: '/home/dashboard', pathMatch: 'full' },
     {path: '', component: MainComponent},
     {path: '', component: MainComponent, children: MAIN_ROUTING},
-    {path: 'home', component: MainPanelComponent, children: MAIN_PANEL_ROUTES}
+    {path: 'home', component: MainPanelComponent, children: MAIN_PANEL_ROUTES},
+    {path: 'newproduct', component: NewproductComponent}
 ];
 
 export const routing = RouterModule.forRoot(APP_ROUTES);

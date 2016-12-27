@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+const BrowserWindow = require('electron').remote.BrowserWindow
 
 @Component({
   selector: 'app-order',
@@ -25,5 +26,10 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
   }
+
+addProducts(){
+    console.log("hola");
+    console.log(require.resolve('electron'));
+}
 
 }
