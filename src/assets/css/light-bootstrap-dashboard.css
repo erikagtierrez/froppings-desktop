@@ -1280,7 +1280,8 @@ fieldset[disabled] .btn-neutral.active {
     color: #87CB16;
 }
 
-.input-group-addon {
+.input-group-addon,
+select {
     background-color: #FFFFFF;
     border: 1px solid #E3E3E3;
     border-radius: 4px;
@@ -1330,7 +1331,8 @@ fieldset[disabled] .form-control {
     cursor: not-allowed;
 }
 
-.input-group-btn .btn {
+.input-group-btn .btn,
+select {
     border-width: 1px;
     padding: 9px 16px;
 }
@@ -4091,4 +4093,34 @@ fieldset[disabled] .form-control {
 
 .product-list {
     font-size: 50vh;
+}
+
+.btn:hover {
+    border-width: 2px;
+    color: white;
+    border-color: #6d1d46;
+    background: #6d1d46;
+}
+
+select {
+    width: 100%;
+    height: 100%;
+    color: grey;
+}
+
+select:required:invalid {
+    color: gray;
+}
+
+option[value=""][disabled] {
+    display: none;
+}
+
+option {
+    color: black;
+}
+
+.card {
+    margin-bottom: 10px;
+    margin-top: 10px;
 }

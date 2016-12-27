@@ -13,6 +13,17 @@ import { ButtonNavComponent } from './button-nav/button-nav.component';
 import { OrderComponent } from './order/order.component';
 import { ProductspopupComponent } from './productspopup/productspopup.component';
 import { FastuserComponent } from './fastuser/fastuser.component';
+import { ProductsComponent } from './products/products.component';
+import { ProductdetailsComponent } from './productdetails/productdetails.component';
+import { NewproductComponent } from './newproduct/newproduct.component';
+import { IngredientsComponent } from './ingredients/ingredients.component';
+import { IngredientsdetailsComponent } from './ingredientsdetails/ingredientsdetails.component';
+import { NewingredientComponent } from './newingredient/newingredient.component';
+import { RecipeComponent } from './recipe/recipe.component';
+import { RecipedetailsComponent } from './recipedetails/recipedetails.component';
+import { NewrecipeComponent } from './newrecipe/newrecipe.component';
+import {routing} from "./app.routing";
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +36,23 @@ import { FastuserComponent } from './fastuser/fastuser.component';
     ButtonNavComponent,
     OrderComponent,
     ProductspopupComponent,
-    FastuserComponent
+    FastuserComponent,
+    ProductsComponent,
+    ProductdetailsComponent,
+    NewproductComponent,
+    IngredientsComponent,
+    IngredientsdetailsComponent,
+    NewingredientComponent,
+    RecipeComponent,
+    RecipedetailsComponent,
+    NewrecipeComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing
      ],
   providers: [],
   bootstrap: [AppComponent]

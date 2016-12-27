@@ -1,0 +1,26 @@
+<div class="row button-action">
+    <div class="form-group col-md-3 col-md-offset-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar...">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i></button>
+      </span>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn button-dashboard">Agregar Producto</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let producto of productos">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">{{producto}}</h4>
+                <p class="category">Bs. XXXX</p>
+            </div>
+            <div class="content">
+                <img class="img-producto" src="assets/img/productodefault.png " class="img-responsive ">
+            </div>
+        </div>
+    </div>
+</div>
