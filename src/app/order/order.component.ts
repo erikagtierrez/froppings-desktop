@@ -1,4 +1,8 @@
+const {BrowserWindow} = require('electron').remote;
+const path = require('path')
+import { NewproductComponent } from './../newproduct/newproduct.component';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-order',
@@ -21,14 +25,16 @@ export class OrderComponent implements OnInit {
       'cantidad':"5",
       "precio":"XXX"
   }];
-  constructor() { }
+  
+  constructor() {
+   }
 
   ngOnInit() {
   }
 
-addProducts(){
-    console.log("hola");
-    console.log(require.resolve('electron'));
-}
-
+    addProducts(){
+         const componentPath = path.join('file://', __dirname, '../newproduct/newproductcomponent.html');
+        let win = new BrowserWindow({ width: 700, height: 900, 'minHeight': 900, 'minWidth': 700 });
+        win.loadURL(componentPath);
+    }
 }

@@ -1,73 +1,77 @@
 {
-  "project": {
-    "version": "1.0.0-beta.24",
-    "name": "froppings-desktop"
-  },
-  "apps": [
-    {
-      "root": "src",
-      "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
-      "index": "index.html",
-      "main": "main.ts",
-      "test": "test.ts",
-      "tsconfig": "tsconfig.json",
-      "prefix": "app",
-      "mobile": false,
-      "styles": [
-        "styles.css",
-        "assets/css/bootstrap.min.css" ,
-       "assets/css/animate.min.css",
-       "assets/css/light-bootstrap-dashboard.css",
-       "assets/css/demo.css" ,
-       "assets/css/font-awesome.min.css",
-       "assets/css/pe-icon-7-stroke.css"
-      ],
-      "scripts": [
-         "assets/js/jquery-1.10.2.js",
-         "assets/js/bootstrap.min.js",
-         "assets/js/bootstrap-checkbox-radio-switch.js",
-         "assets/js/chartist.min.js",
-         "assets/js/bootstrap-notify.js",
-         "assets/js/light-bootstrap-dashboard.js",
-         "assets/js/demo.js"
-      ],
-      "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
-    }
-  ],
-  "addons": [],
-  "packages": [],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
-  "test": {
-    "karma": {
-      "config": "./karma.conf.js"
-    }
-  },
-  "defaults": {
-    "styleExt": "css",
-    "prefixInterfaces": false,
-    "inline": {
-      "style": false,
-      "template": false
+    "project": {
+        "version": "1.0.0-beta.24",
+        "name": "froppings-desktop"
     },
-    "spec": {
-      "class": false,
-      "component": true,
-      "directive": true,
-      "module": false,
-      "pipe": true,
-      "service": true
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "assets",
+            "favicon.ico"
+        ],
+        "index": "index.html",
+        "main": "main.ts",
+        "test": "test.ts",
+        "tsconfig": "tsconfig.json",
+        "prefix": "app",
+        "mobile": false,
+        "styles": [
+            "styles.css",
+            "assets/css/bootstrap.min.css",
+            "assets/css/animate.min.css",
+            "assets/css/light-bootstrap-dashboard.css",
+            "assets/css/demo.css",
+            "assets/css/font-awesome.min.css",
+            "assets/css/pe-icon-7-stroke.css"
+        ],
+        "scripts": [
+            "assets/js/jquery-1.10.2.js",
+            "assets/js/bootstrap.min.js",
+            "assets/js/bootstrap-checkbox-radio-switch.js",
+            "assets/js/chartist.min.js",
+            "assets/js/bootstrap-notify.js",
+            "assets/js/light-bootstrap-dashboard.js",
+            "assets/js/demo.js"
+        ],
+        "environments": {
+            "source": "environments/environment.ts",
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    }],
+    "addons": [],
+    "packages": [],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "prefixInterfaces": false,
+        "inline": {
+            "style": false,
+            "template": false
+        },
+        "spec": {
+            "class": false,
+            "component": true,
+            "directive": true,
+            "module": false,
+            "pipe": true,
+            "service": true
+        },
+        "webpack": {
+            "development": {
+                "config": "config/webpack.dev.conf.js",
+                "target": "electron-renderer"
+            }
+        }
     }
-  }
 }
