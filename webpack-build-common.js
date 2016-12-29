@@ -7,7 +7,7 @@ var package_chunk_sort_1 = require('../utilities/package-chunk-sort');
 var base_href_webpack_1 = require('@angular-cli/base-href-webpack');
 var webpack_build_utils_1 = require('./webpack-build-utils');
 var autoprefixer = require('autoprefixer');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+//var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var SilentError = require('silent-error');
@@ -92,7 +92,7 @@ function getWebpackCommonConfig(projectRoot, environment, appConfig, baseHref, s
         extraPlugins.push(new ProgressPlugin({ profile: verbose, colors: true }));
     }
     return {
-        target: 'electron-renderer',
+        //target: 'electron-renderer',
         devtool: sourcemap ? 'source-map' : false,
         resolve: {
             extensions: ['.ts', '.js'],
@@ -123,10 +123,10 @@ function getWebpackCommonConfig(projectRoot, environment, appConfig, baseHref, s
                 chunksSortMode: package_chunk_sort_1.packageChunkSort(['inline', 'styles', 'scripts', 'vendor', 'main']),
                 excludeChunks: lazyChunks
             }),
-            new CopyWebpackPlugin([{
-                context: path.resolve(appRoot),
-                from: "electron/electron.js"
-            }]),
+            // new CopyWebpackPlugin([{
+            //     context: path.resolve(appRoot),
+            //     from: "electron/electron.js"
+            // }]),
             new base_href_webpack_1.BaseHrefWebpackPlugin({
                 baseHref: baseHref
             }),

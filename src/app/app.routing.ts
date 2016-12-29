@@ -15,8 +15,7 @@ const APP_ROUTES : Routes=[
     { path: '', redirectTo: '/home/dashboard', pathMatch: 'full' },
     {path: '', component: MainComponent},
     {path: '', component: MainComponent, children: MAIN_ROUTING},
-    {path: 'home', component: MainPanelComponent, children: MAIN_PANEL_ROUTES},
-    {path: 'newproduct', component: NewproductComponent}
+    {path: 'home', component: MainPanelComponent, children: MAIN_PANEL_ROUTES}
 ];
 
 export const routing = RouterModule.forRoot(APP_ROUTES);

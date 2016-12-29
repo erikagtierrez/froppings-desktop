@@ -1,5 +1,4 @@
-const {BrowserWindow} = require('electron').remote;
-const path = require('path')
+//const {BrowserWindow} = require('electron').remote;
 import { NewproductComponent } from './../newproduct/newproduct.component';
 import { Component, OnInit } from '@angular/core';
 
@@ -10,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent implements OnInit {
-  productos:any = [{
+    productos:any = [{
       'nombre':"Producto 1",
       'cantidad':"2",
       "precio":"XXX"
@@ -33,8 +32,9 @@ export class OrderComponent implements OnInit {
   }
 
     addProducts(){
-         const componentPath = path.join('file://', __dirname, '../newproduct/newproductcomponent.html');
-        let win = new BrowserWindow({ width: 700, height: 900, 'minHeight': 900, 'minWidth': 700 });
-        win.loadURL(componentPath);
+    }
+
+    confirm(){
+
     }
 }
