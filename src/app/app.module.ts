@@ -24,6 +24,7 @@ import { RecipedetailsComponent } from './recipedetails/recipedetails.component'
 import { NewrecipeComponent } from './newrecipe/newrecipe.component';
 import {routing} from "./app.routing";
 import { MainComponent } from './main/main.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { MainComponent } from './main/main.component';
     RecipeComponent,
     RecipedetailsComponent,
     NewrecipeComponent,
-    MainComponent
+    MainComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
