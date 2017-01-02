@@ -1,0 +1,31 @@
+.fixed-panel {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #29211d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-section {
+    /*background-color: #EDC8B7;*/
+    padding: 10px 20px;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+.form-control {
+    margin-bottom: 5px;
+    color: #29211d;
+}
+
+.btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+}

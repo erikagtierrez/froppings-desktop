@@ -8,12 +8,12 @@
         </div>
     </div>
     <div class="col-md-3">
-        <button type="button" class="btn button-dashboard" [routerLink]="['/home/newproduct']">Agregar Producto</button>
+        <button type="button" class="btn button-dashboard" [routerLink]="['/newproduct']">Agregar Producto</button>
     </div>
 </div>
 <div class="row">
     <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let producto of productos">
-        <div class="card" [routerLink]="['/home/productdetails']">
+        <div class="card" [routerLink]="['/productdetails']">
             <div class="header">
                 <h4 class="title">{{producto}}</h4>
                 <p class="category">Bs. XXXX</p>

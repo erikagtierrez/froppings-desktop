@@ -2,35 +2,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import {HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { MainPanelComponent } from './main-panel/main-panel.component';
-import { FooterComponent } from './footer/footer.component';
-import { HomeComponent } from './home/home.component';
-import { PointsComponent } from './points/points.component';
-import { ButtonNavComponent } from './button-nav/button-nav.component';
-import { OrderComponent } from './order/order.component';
-import { ProductspopupComponent } from './productspopup/productspopup.component';
-import { FastuserComponent } from './fastuser/fastuser.component';
-import { ProductsComponent } from './products/products.component';
-import { ProductdetailsComponent } from './productdetails/productdetails.component';
-import { NewproductComponent } from './newproduct/newproduct.component';
-import { IngredientsComponent } from './ingredients/ingredients.component';
-import { IngredientsdetailsComponent } from './ingredientsdetails/ingredientsdetails.component';
-import { NewingredientComponent } from './newingredient/newingredient.component';
-import { RecipeComponent } from './recipe/recipe.component';
-import { RecipedetailsComponent } from './recipedetails/recipedetails.component';
-import { NewrecipeComponent } from './newrecipe/newrecipe.component';
-import {routing} from "./app.routing";
-import { MainComponent } from './main/main.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { PointsComponent } from './components/points/points.component';
+import { ButtonNavComponent } from './components/button-nav/button-nav.component';
+import { OrderComponent } from './components/order/order.component';
+import { ProductspopupComponent } from './components/productspopup/productspopup.component';
+import { FastuserComponent } from './components/fastuser/fastuser.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
+import { NewproductComponent } from './components/newproduct/newproduct.component';
+import { IngredientsComponent } from './components/ingredients/ingredients.component';
+import { IngredientsdetailsComponent } from './components/ingredientsdetails/ingredientsdetails.component';
+import { NewingredientComponent } from './components/newingredient/newingredient.component';
+import { RecipeComponent } from './components/recipe/recipe.component';
+import { RecipedetailsComponent } from './components/recipedetails/recipedetails.component';
+import { NewrecipeComponent } from './components/newrecipe/newrecipe.component';
+import { MainComponent } from './components/main/main.component';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
+import {routing} from "./shared/app.routing";
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
-    MainPanelComponent,
     FooterComponent,
     HomeComponent,
     PointsComponent,
