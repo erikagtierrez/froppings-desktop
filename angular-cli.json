@@ -34,8 +34,8 @@
             "assets/js/light-bootstrap-dashboard.js",
             "assets/js/demo.js"
         ],
+        "environmentSource": "environments/environment.ts",
         "environments": {
-            "source": "environments/environment.ts",
             "dev": "environments/environment.ts",
             "prod": "environments/environment.prod.ts"
         }

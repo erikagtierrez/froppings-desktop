@@ -1,5 +1,5 @@
-import { MAIN_PANEL_ROUTES } from './../main-panel/main-panel.routing';
-import { MainPanelComponent } from './../main-panel/main-panel.component';
+//import { MAIN_PANEL_ROUTES } from './../main-panel/main-panel.routing';
+//import { MainPanelComponent } from './../main-panel/main-panel.component';
 import { IngredientsdetailsComponent } from './../ingredientsdetails/ingredientsdetails.component';
 import { NewingredientComponent } from './../newingredient/newingredient.component';
 import { RecipedetailsComponent } from './../recipedetails/recipedetails.component';
