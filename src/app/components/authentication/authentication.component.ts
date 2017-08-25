@@ -1,8 +1,11 @@
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UsersService } from './../../shared/users.service';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
+import { AngularFireAuth } from "angularfire2/auth";
+import { Observable } from "rxjs/Rx";
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-authentication',
@@ -11,24 +14,23 @@ import {NgForm} from '@angular/forms';
   providers: [UsersService]
 })
 export class AuthenticationComponent implements OnInit {
-
-  constructor(private router: Router, private userService: UsersService) { }
+  user: Observable<firebase.User>;
+  
+  constructor(private router: Router, private userService: UsersService, public fireAuth: AngularFireAuth) {
+    this.user=fireAuth.authState;
+   }
 
   ngOnInit() {
   }
 
   onSubmit(form: NgForm){
-    this.userService.login(form.value.email,form.value.password).subscribe(
-      data => {
-       if (data.token) {
-          let authUser = {
-            "email": form.value.email,
-            "password": form.value.password
-        	}
-        	this.router.navigateByUrl("/dashboard");
-      }else{
-        console.log("Error on sign up " + data.code);
-      }});
+    this.fireAuth.auth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(
+        (success)=> {
+           this.router.navigateByUrl('./dashboard');      
+         }, (err)=> {
+          // login error
+        })
+      }
   }
 
-}

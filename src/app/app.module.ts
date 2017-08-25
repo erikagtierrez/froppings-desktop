@@ -24,6 +24,10 @@ import { NewrecipeComponent } from './components/newrecipe/newrecipe.component';
 import { MainComponent } from './components/main/main.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import {routing} from "./shared/app.routing";
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,10 @@ import {routing} from "./shared/app.routing";
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule, // imports firebase/database, only needed for database features
+    AngularFireAuthModule // imports firebase/auth, only needed for auth features
      ],
   providers: [],
   bootstrap: [AppComponent]

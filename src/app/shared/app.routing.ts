@@ -15,8 +15,8 @@ import {HomeComponent} from "../components/home/home.component";
 
 const APP_ROUTES : Routes=[
     //{ path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: '', redirectTo: '/dashboard',pathMatch: 'full' },
-    {path: '', component: MainComponent, children: MAIN_ROUTING},
+    { path: '', redirectTo: '/login',pathMatch: 'full' },
+    {path: 'dashboard', component: MainComponent, children: MAIN_ROUTING},
     {path: 'login', component: AuthenticationComponent},
 ];
 
