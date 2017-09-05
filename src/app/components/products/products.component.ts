@@ -1,4 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { NewproductComponent } from "./../newproduct/newproduct.component";
+import { Router, RouterModule, ActivatedRoute } from "@angular/router";
+import { UsersService } from "./../../shared/users.service";
+import { FormsModule } from "@angular/forms";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AngularFireAuth } from "angularfire2/auth";
+import { Observable } from "rxjs/Rx";
+import { NgModel } from "@angular/forms";
+import { OrderProduct } from "../productspopup/orderProduct";
+import * as firebase from "firebase/app";
+import swal from 'sweetalert2'
+import {
+  FirebaseListObservable,
+  AngularFireDatabase
+} from "angularfire2/database";
 
 @Component({
   selector: 'app-products',
@@ -6,9 +21,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  productos = ["Producto 1","Producto 2","Producto 3","Producto 4","Producto 5","Producto 6","Producto 1","Producto 2","Producto 3","Producto 4","Producto 5","Producto 6","Producto 1","Producto 2","Producto 3","Producto 4","Producto 5","Producto 6"];
-
-  constructor() { }
+  items: FirebaseListObservable<any[]>;
+  
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public fireAuth: AngularFireAuth,
+    public database: AngularFireDatabase
+  ) { 
+    this.items = database.list('/products');    
+  }
 
   ngOnInit() {
   }

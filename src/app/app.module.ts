@@ -28,6 +28,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
+import { ShowHidePasswordModule } from 'ngx-show-hide-password';
+import { CommonModule } from '@angular/common';  
+import { NgVirtualKeyboardModule }  from '@protacon/ng-virtual-keyboard';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -57,6 +61,10 @@ import { environment } from '../environments/environment';
     FormsModule,
     HttpModule,
     routing,
+    Ng2SearchPipeModule,
+    NgVirtualKeyboardModule,
+    CommonModule,
+    ShowHidePasswordModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule // imports firebase/auth, only needed for auth features

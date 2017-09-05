@@ -23,6 +23,8 @@
             "assets/css/light-bootstrap-dashboard.css",
             "assets/css/demo.css",
             "assets/css/font-awesome.min.css",
+            "assets/css/font-awesome.css",
+            "../node_modules/sweetalert2/dist/sweetalert2.css",
             "assets/css/pe-icon-7-stroke.css"
         ],
         "scripts": [
@@ -31,6 +33,7 @@
             "assets/js/bootstrap-checkbox-radio-switch.js",
             "assets/js/chartist.min.js",
             "assets/js/bootstrap-notify.js",
+            "../node_modules/sweetalert2/dist/sweetalert2.js",
             "assets/js/light-bootstrap-dashboard.js",
             "assets/js/demo.js"
         ],

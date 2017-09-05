@@ -1,12 +1,60 @@
 <div class="fixed-panel row">
-    <div class="col-md-4 col-md-offset-4">
-        <img src="assets/img/froppings.png" class="img-responsive">
-        <div class="login-section col-md-8 col-md-offset-2">
-            <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)">
-                <input type="email" class="form-control" ngModel name="email" placeholder="Correo Electrónico">
-                <input type="password" class="form-control" ngModel name="password" placeholder="Contraseña">
-                <button type="submit" class="btn btn-info btn-fill">Ingresar</button>
-            </form>
+  <div class="col-md-4 col-md-offset-4 sectionLogin">
+    <img src="assets/img/froppings.png" class="img-responsive rounded mx-auto d-block">
+    <div class="login-section col-md-8 col-md-offset-2" *ngIf="!isRegistration">
+      <form class="form" #form="ngForm" (ngSubmit)="onLogin(form)">
+        <input type="email" class="form-control" ngModel name="email" placeholder="Correo Electrónico" required>
+        <input type="password" class="form-control" ngModel name="password" placeholder="Contraseña" required>
+        <p class="text-center" (click)="forgotPassword()">¿Olvidaste tu contraseña?</p>
+        <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-fill">Iniciar sesión</button>
+        <p class="text-center paddingtoplittle">Conecta con:</p>
+        <div class="col-md-4 col-md-offset-4 socialbutton">
+          <a class="btn btn-social-icon btn-google" (click)="googleLogin()">
+                <span class="fa fa-google"></span>
+              </a>
+          <a class="btn btn-social-icon btn-facebook" (click)="fbLogin()">
+                    <span class="fa fa-facebook"></span>
+                  </a>
         </div>
+        <div class="col-md-12">
+          <p class="text-center paddingtoplittle" (click)="isRegistration=!isRegistration">¿No estas registrado?</p>
+        </div>
+      </form>
     </div>
+    <div class="login-section col-md-8 col-md-offset-2" *ngIf="isRegistration">
+      <form class="form" #form="ngForm" (ngSubmit)="onRegister(form)">
+        <div class="col-md-6">
+          <input type="text" class="form-control" [ngModel]="nameRegister" name="nameRegister" placeholder="Nombre" required>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" [ngModel]="lastnameRegister" name="lastnameRegister" placeholder="Apellido" required>
+        </div>
+        <div class="col-md-12">
+          <input type="number" class="form-control" [ngModel]="idRegister" name="idRegister" placeholder="Cedula de Identidad" required>
+          <input type="email" class="form-control" [ngModel]="emailRegister" name="emailRegister" placeholder="Correo Electrónico"
+            required>
+          <show-hide-password size="md" icon="fontawesome" *ngIf="!useProvider">
+            <input type="password" class="form-control" [ngModel]=passwordRegister name="passwordRegister" placeholder="Contraseña" required
+              minlength="6">
+          </show-hide-password>
+        </div>
+        <p class="text-center" (click)="isRegistration=!isRegistration">¿Ya tienes cuenta? Inicia sesión</p>
+        <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-fill">Registrarse</button>
+      </form>
+      <p class="text-center paddingtoplittle" *ngIf="!useProvider" (click)="isRegistration=!isRegistration">Regístrate usando:</p>
+      <div class="col-md-4 col-md-offset-4 socialbutton" *ngIf="!useProvider">
+        <a class="btn btn-social-icon btn-google" (click)="googleRegister()">
+              <span class="fa fa-google"></span>
+            </a>
+        <a class="btn btn-social-icon btn-facebook" (click)="fbRegister()">
+                  <span class="fa fa-facebook"></span>
+                </a>
+      </div>
+      <div class="col-md-12" *ngIf="useProvider">
+        <button type="submit" class="btn btn-simple text-center paddingtoplittle" (click)="useProvider=!useProvider">Volver a registro basico
+        </button>
+
+      </div>
+    </div>
+  </div>
 </div>

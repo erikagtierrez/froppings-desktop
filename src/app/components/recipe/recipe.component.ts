@@ -1,4 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Router,
+  RouterModule,
+  ActivatedRoute,
+  ParamMap
+} from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AngularFireAuth } from "angularfire2/auth";
+import { Observable } from "rxjs/Rx";
+import { NgModel } from "@angular/forms";
+import { OrderProduct } from "../productspopup/orderProduct";
+import * as firebase from "firebase/app";
+import swal from "sweetalert2";
+import {
+  FirebaseListObservable,
+  AngularFireDatabase
+} from "angularfire2/database";
 
 @Component({
   selector: 'app-recipe',
@@ -6,11 +24,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipe.component.css']
 })
 export class RecipeComponent implements OnInit {
-  recetas = ["Receta 1","Receta 2","Receta 3","Receta 4","Receta 5","Receta 6","Receta 1","Receta 2","Receta 3","Receta 4","Receta 5","Receta 6","Receta 1","Receta 2","Receta 3","Receta 4","Receta 5","Receta 6"];
-
-  constructor() { }
+  recipes: any;
+  product: any;
+  key:any;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public fireAuth: AngularFireAuth,
+    public database: AngularFireDatabase
+  ) { }
 
   ngOnInit() {
+    this.recipes=this.database.list("/recipe");
   }
 
 }

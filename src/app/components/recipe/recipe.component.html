@@ -1,7 +1,7 @@
 <div class="row button-action">
     <div class="form-group col-md-3 col-md-offset-6">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar...">
+            <input type="text" [(ngModel)]="rules"  class="form-control" placeholder="Buscar...">
             <span class="input-group-btn">
         <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i></button>
       </span>
@@ -12,15 +12,15 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xl-3 col-lg-3 col-md-3" *ngFor="let receta of recetas">
+    <div class="col-xl-3 col-lg-3 col-md-3" *ngFor="let re of recipes | async | filter:rules">
         <div class="card" [routerLink]="['/recipedetails']">
             <div class="header">
-                <h4 class="title">{{receta}}</h4>
-                <p class="category">Lorem ipsum dolor</p>
+                <h4 class="title">{{re.productname}}</h4>
             </div>
-            <div class="content">
-                - Morbi vulputate accumsan dui sit amet sodales.<br> - Donec sagittis lectus quam, auctor ultrices nisl.<br> - Tincidunt ultricies. Nulla facilisi. Aenean vel mattis est.
+            <div class="content" *ngFor="let re of recipes | async | filter:rules">
+                - {{re}}
             </div>
+            
         </div>
     </div>
 </div>

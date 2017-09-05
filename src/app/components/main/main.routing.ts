@@ -17,15 +17,15 @@ import { PointsComponent } from "./../points/points.component";
 import { Routes } from "@angular/router";
 
 export const MAIN_ROUTING: Routes = [
-  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
-  { path: "dashboard", component: HomeComponent },
+  { path: '', redirectTo: "/dashboard", pathMatch: "full" },
+  { path: 'dashboard', component: HomeComponent },
   { path: "points", component: PointsComponent },
   { path: "order", component: OrderComponent },
   { path: "fastuser", component: FastuserComponent },
   { path: "products", component: ProductsComponent },
   { path: "productspopup", component: ProductspopupComponent },
   { path: "newproduct", component: NewproductComponent },
-  { path: "productdetails", component: ProductdetailsComponent },
+  { path: "productdetails/:id", component: ProductdetailsComponent },
   { path: "recipe", component: RecipeComponent },
   { path: "newrecipe", component: NewrecipeComponent },
   { path: "recipedetails", component: RecipedetailsComponent },

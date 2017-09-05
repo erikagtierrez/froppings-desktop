@@ -4118,6 +4118,17 @@ select {
 .verticalcenter{
     top:25%;
 }
+.input-group-btn:last-child>.btn {
+    background-color: white;
+    border-color: transparent;
+    margin-left: 0;
+    margin-bottom: 5px;
+}
+
+.input-group-btn>.btn:hover {
+    z-index: 2;
+    background-color: #810d43;
+}
 
 .topSpace{
     margin-top:20px;
