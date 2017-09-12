@@ -1,5 +1,5 @@
 <div class="row button-action">
-    <div class="form-group col-md-3 col-md-offset-6">
+    <div class="form-group col-md-3 col-md-offset-9">
         <div class="input-group">
             <input type="text" [(ngModel)]="rules"  class="form-control" placeholder="Buscar...">
             <span class="input-group-btn">
@@ -7,20 +7,20 @@
       </span>
         </div>
     </div>
-    <div class="col-md-3">
+<!--     <div class="col-md-3">
         <button type="button" class="btn button-dashboard" [routerLink]="['/newrecipe']">Agregar Receta</button>
-    </div>
+    </div> -->
 </div>
 <div class="row">
-    <div class="col-xl-3 col-lg-3 col-md-3" *ngFor="let re of recipes | async | filter:rules">
-        <div class="card" [routerLink]="['/recipedetails']">
+    <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let pro of product| async | filter:rules let i=index" [attr.data-index]="i" >
+        <div class="card" [routerLink]="['/recipedetails']" (click)="goToDetails(pro,i)">
             <div class="header">
-                <h4 class="title">{{re.productname}}</h4>
+                <h4 class="title">{{pro.name}}</h4>
+                <p class="category">{{pro.type}}</p>
             </div>
-            <div class="content" *ngFor="let re of recipes | async | filter:rules">
-                - {{re}}
+            <div class="content">
+                <img class="img-producto" src={{pro.image}} class="img-responsive ">
             </div>
-            
         </div>
     </div>
 </div>

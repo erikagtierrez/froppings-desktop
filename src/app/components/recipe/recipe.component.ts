@@ -26,7 +26,7 @@ import {
 export class RecipeComponent implements OnInit {
   recipes: any;
   product: any;
-  key:any;
+  key=[];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -36,6 +36,18 @@ export class RecipeComponent implements OnInit {
 
   ngOnInit() {
     this.recipes=this.database.list("/recipe");
+    this.product=this.database.list("/products");
+    this.recipes.subscribe(snapshot=>{
+      snapshot.forEach(snapshot=>{
+      this.key.push(Object.keys(snapshot));
+      });
+    });
+  }
+
+  goToDetails(product,index){
+    console.log(this.key[index][0]);
+    console.log(index);
+    this.router.navigate(["/recipedetails",this.key[index][0]]);     
   }
 
 }

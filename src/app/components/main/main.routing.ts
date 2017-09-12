@@ -28,8 +28,8 @@ export const MAIN_ROUTING: Routes = [
   { path: "productdetails/:id", component: ProductdetailsComponent },
   { path: "recipe", component: RecipeComponent },
   { path: "newrecipe", component: NewrecipeComponent },
-  { path: "recipedetails", component: RecipedetailsComponent },
+  { path: "recipedetails/:id", component: RecipedetailsComponent },
   { path: "ingredients", component: IngredientsComponent },
   { path: "newingredient", component: NewingredientComponent },
-  { path: "ingredientdetails", component: IngredientsdetailsComponent }
+  { path: "ingredientdetails/:id", component: IngredientsdetailsComponent }
 ];
