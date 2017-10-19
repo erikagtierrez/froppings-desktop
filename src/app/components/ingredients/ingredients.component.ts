@@ -11,9 +11,9 @@ import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: "app-ingredients",
@@ -21,7 +21,7 @@ import {
   styleUrls: ["./ingredients.component.css"]
 })
 export class IngredientsComponent implements OnInit {
-  items: FirebaseListObservable<any[]>;
+  items: any;
 
   constructor(
     private router: Router,
@@ -29,7 +29,9 @@ export class IngredientsComponent implements OnInit {
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase
   ) {
-    this.items = database.list("/ingredients");
+    this.items = database.list("/ingredients").snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });;
   }
 
   ngOnInit() {}

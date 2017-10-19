@@ -14,9 +14,9 @@ import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-recipe',

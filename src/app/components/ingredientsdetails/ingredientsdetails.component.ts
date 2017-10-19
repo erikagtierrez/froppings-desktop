@@ -14,9 +14,9 @@ import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: "app-ingredientsdetails",
@@ -24,7 +24,7 @@ import {
   styleUrls: ["./ingredientsdetails.component.css"]
 })
 export class IngredientsdetailsComponent implements OnInit {
-  ingredients: FirebaseListObservable<any[]>;
+  ingredients: any;
   id: any;
   @Input() name: string;
   @Input() price: string;
@@ -38,32 +38,27 @@ export class IngredientsdetailsComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
-    this.ingredients = this.database.list("/ingredients", {
-      query: {
-        orderByChild: "code",
-        equalTo: this.id
-      }
-    });
-    this.ingredients.subscribe(snapshots => {
-      console.log(snapshots);
-      snapshots.forEach(snapshots => {
-        (this.name = snapshots.name), (this.price = snapshots.price);
-      });
+    this.ingredients = this.database
+    .list("ingredients/"+this.id+"/").valueChanges().subscribe(snapshots => {
+      var items:any=snapshots;
+        this.name = items[0]; 
+        this.price = items[1];        
     });
   }
 
-  saveIngredient(ingredient, key) {
-    this.ingredients.update(key, {
+  saveIngredient() {
+    this.database
+    .list("ingredients/").set(this.id, {
       name: this.name,
       price: this.price
     });
     this.router.navigateByUrl("/ingredients");
   }
 
-  deleteIngredient(ingredient, key) {
-    console.log(key);
-    
-    this.ingredients.remove(key);
+  deleteIngredient() {
+    console.log(this.id);
+    this.database
+    .list("ingredients/").remove(this.id);
     this.router.navigateByUrl("/ingredients");
   }
 }

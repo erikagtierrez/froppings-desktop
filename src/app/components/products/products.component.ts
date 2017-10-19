@@ -10,8 +10,8 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
+import { AngularFirestore } from 'angularfire2/firestore';
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
 
@@ -21,7 +21,7 @@ import {
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  items: FirebaseListObservable<any[]>;
+  items: any;
   
   constructor(
     private router: Router,
@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase
   ) { 
-    this.items = database.list('/products');    
+    this.items = database.list('/products').valueChanges();    
   }
 
   ngOnInit() {

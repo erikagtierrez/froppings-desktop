@@ -2,9 +2,9 @@
   <div class="card" *ngFor="let productDetails of product | async">
     <div class="row">
       <div class="col-md-4 inner-card">
-        <img class="img-producto" src={{productDetails.image}} class="img-responsive "><br>
+        <img class="img-producto" src={{image}} class="img-responsive "><br>
         <div class="buttonselect">
-          <a href="#" class="btn btn-primary btn-color">Seleccionar Imagen</a>
+          <input type="file" accept="image/*"  (change)="handleFileSelect($event)" class="btn btn-primary btn-color" text="Seleccionar Imagen">
         </div>
       </div>
       <div class="col-md-7  header">
@@ -17,16 +17,16 @@
           <input type="text" class="form-control" placeholder="Descripción" [(ngModel)]="description" name="description" value="">
         </div>
         <div class="form-group">
-          <label>Categoría</label>
-          <input type="text" class="form-control" placeholder="Categoria" [(ngModel)]="category" name="category" value="">
-        </div>
-        <div class="form-group">
           <label>Precio</label>
           <input type="number" class="form-control" placeholder="Precio" [(ngModel)]="price" name="price" value="">
         </div>
         <div class="form-group">
+          <label>Costo total de Ingredientes</label>
+          <input type="number" class="form-control" disabled placeholder="Costo de Ingredientes" [(ngModel)]="category" name="category" value="">
+        </div>
+        <div class="form-group">
           <label>Puntos</label>
-          <input type="number" class="form-control" placeholder="Puntos" [(ngModel)]="points" name="points" value="">
+          <input type="number" class="form-control" placeholder="Puntos" disabled [(ngModel)]="points" name="points" value="">
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
                             </select>
           </div>
           <div class="col-md-4">
-            <input type="text" class="form-control" name="quantity" [(ngModel)]="quantity" placeholder="Cantidad">
+            <input type="number" class="form-control" name="quantity" [(ngModel)]="quantity" placeholder="Cantidad">
           </div>
           <div class="col-md-2 col">
             <i class="fa fa-plus" aria-hidden="true" style="color:green; margin-top:20%;" (click)="addIngredient(selectedIngredient)"></i>
@@ -58,11 +58,11 @@
               <th></th>
             </thead>
             <tbody>
-              <tr *ngFor="let rec of recipe | async; let i=index" [attr.data-index]="i">
+              <tr *ngFor="let rec of recipe | async">
                 <td>{{rec.name}}</td>
                 <td>{{rec.quantity}}</td>
-                <td><i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" (click)=modifyIngredientElement(rec,rec.$key)></i>                  &emsp;
-                  <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteIngredientElement(rec,rec.$key)></i></td>
+                <td><i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" (click)=modifyIngredientElement(rec,rec.key)></i>                  &emsp;
+                  <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteIngredientElement(rec,rec.key)></i></td>
               </tr>
             </tbody>
           </table>
@@ -70,8 +70,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2 col-md-offset-10">
-        <button type="submit" class="btn btn-info btn-fill pull-right" (click)="saveProduct(productDetails,productDetails.$key)">Guardar Cambios</button>
+      <div class="col-md-2 col-md-offset-7">
+        <button type="submit" class="btn btn-info btn-fill pull-right" (click)="revertChanges()"  style="width: 100%;">Cancelar</button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-info btn-fill pull-right" (click)="saveProduct(productDetails,productDetails.$key)"  style="width: 100%;">Guardar Cambios</button>
       </div>
     </div>
   </div>

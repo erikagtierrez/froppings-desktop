@@ -8,9 +8,8 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
-
+import { AngularFirestore } from 'angularfire2/firestore';
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
 
@@ -24,7 +23,7 @@ export class AuthenticationComponent implements OnInit {
   isRegistration: boolean;
   useProvider: boolean;
   user: Observable<firebase.User>;
-  newUser: FirebaseListObservable<any[]>;
+  newUser: any;
   @Input() emailRegister: string = "";
   @Input() nameRegister: string = "";
   @Input() lastnameRegister: string = "";
@@ -55,15 +54,11 @@ export class AuthenticationComponent implements OnInit {
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then(success => {
         var newUser = this.database
-          .list("users", {
-            query: {
-              orderByChild: "email",
-              equalTo: this.fireAuth.auth.currentUser.email
-            }
-          })
+          .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
+          .valueChanges()
           .subscribe(snapshots => {
-            snapshots.forEach(snapshots => {
-              if (snapshots.email == this.fireAuth.auth.currentUser.email) {
+            snapshots.forEach((snapshots,id) => {
+              if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
                 this.router.navigateByUrl("/dashboard");
                 exist = true;
               }
@@ -82,7 +77,7 @@ export class AuthenticationComponent implements OnInit {
       .catch(err => {
         swal({
           title: 'Algo anda mal!',
-          text: 'No se pudo realizar la autenticacion de Google',
+          text: 'No se pudo realizar la autenticacion de Facebook',
           type: 'error',
           confirmButtonText: 'Ok!'
         });
@@ -97,21 +92,16 @@ export class AuthenticationComponent implements OnInit {
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
         var newUser = this.database
-          .list("users", {
-            query: {
-              orderByChild: "email",
-              equalTo: this.fireAuth.auth.currentUser.email
+        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
+        .valueChanges()
+        .subscribe(snapshots => {
+          snapshots.forEach((snapshots,id) => {
+            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+              this.router.navigateByUrl("/dashboard");
+              exist = true;
             }
-          })
-          .subscribe(snapshots => {
-            snapshots.forEach(snapshots => {
-              if (snapshots.email == this.fireAuth.auth.currentUser.email) {
-                this.router.navigateByUrl("/dashboard");
-                exist = true;
-              }
-            });
           });
-      })
+      })})
       .catch(function(error) {
         console.log(error);
         swal({
@@ -137,19 +127,15 @@ export class AuthenticationComponent implements OnInit {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(success => {
         var newUser = this.database
-          .list("users", {
-            query: {
-              orderByChild: "email",
-              equalTo: this.fireAuth.auth.currentUser.email
+        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
+        .valueChanges()
+        .subscribe(snapshots => {
+          snapshots.forEach((snapshots,id) => {
+            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+              this.router.navigateByUrl("/dashboard");
+              exist = true;
             }
-          })
-          .subscribe(snapshots => {
-            snapshots.forEach(snapshots => {
-              if (snapshots.email == this.fireAuth.auth.currentUser.email) {
-                this.router.navigateByUrl("/dashboard");
-                exist = true;
-              }
-            });
+          });
             if (!exist) {
               swal({
                 title: 'Algo anda mal!',
@@ -157,7 +143,6 @@ export class AuthenticationComponent implements OnInit {
                 type: 'error',
                 confirmButtonText: 'Ok!'
               });
-              //Alert  "Not registered"
             }
           });
       })
@@ -179,21 +164,16 @@ export class AuthenticationComponent implements OnInit {
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
         var newUser = this.database
-          .list("users", {
-            query: {
-              orderByChild: "email",
-              equalTo: this.fireAuth.auth.currentUser.email
+        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
+        .valueChanges()
+        .subscribe(snapshots => {
+          snapshots.forEach((snapshots,id) => {
+            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+              this.router.navigateByUrl("/dashboard");
+              exist = true;
             }
-          })
-          .subscribe(snapshots => {
-            snapshots.forEach(snapshots => {
-              if (snapshots.email == this.fireAuth.auth.currentUser.email) {
-                this.router.navigateByUrl("/dashboard");
-                exist = true;
-              }
-            });
           });
-      })
+      })})
       .catch(function(error) {
         swal({
           title: 'Algo anda mal!',
@@ -250,8 +230,7 @@ export class AuthenticationComponent implements OnInit {
         .push(authUserInfo)
         .then(success => {
           this.router.navigateByUrl("/dashboard");
-        })
-        .catch(err => {
+        },err => {
           swal({
             title: 'Algo anda mal!',
             text: 'Intentalo de nuevo',

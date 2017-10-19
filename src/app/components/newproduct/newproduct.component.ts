@@ -14,9 +14,10 @@ import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
+
 @Component({
   selector: "app-newproduct",
   templateUrl: "./newproduct.component.html",
@@ -24,17 +25,20 @@ import {
 })
 export class NewproductComponent implements OnInit {
   ingredientsList: any[];
-  recipe: FirebaseListObservable<any[]>;
+  recipe: any;
   key: any;
+  image:any="assets/img/productodefault.png";
+  saved: boolean=false;
   product: firebase.database.ThenableReference;
   ingredients: any[]=[];
   @Input() quantity: number;
   selectedIngredient: string="";
   @Input() name: string;
-  @Input() category: string;
+  @Input() category: number=0;
   @Input() description: string;
   @Input() price: number;
   @Input() points: number;
+  pointsToMoney:any;
 
   constructor(
     private router: Router,
@@ -44,15 +48,27 @@ export class NewproductComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.database
+    .list("config/")
+    .valueChanges()
+    .subscribe(snapshots => {
+      var value: any;
+      value = snapshots;
+      value.forEach(action => {
+        console.log(action.pointsToMoney);
+        this.pointsToMoney = action.pointsToMoney;
+      });
+    });
     this.key = this.database.list("/products").push({
       image:
-        "http://cdn-image.myrecipes.com/sites/default/files/tagalong-milkshake.jpg"
+        "~/assets/productodefault.png"
     }).key;
     console.log(this.key);
     this.database
-      .list("/ingredients")
+      .list("/ingredients").valueChanges()
       .subscribe(snapshots => {
-        snapshots.forEach(snapshots => {
+        var items:any=snapshots;
+        items.forEach(snapshots => {
             console.log(snapshots.name);
           this.ingredients.push(snapshots.name);
         });
@@ -60,28 +76,41 @@ export class NewproductComponent implements OnInit {
   }
 
   getAvailableIngredients() {
+    this.category=0;
     this.ingredients = [];
     this.ingredientsList = [];
-    this.recipe.subscribe(snapshots => {
-      snapshots.forEach(snapshots => {
+    this.database.list("/recipe/" + this.key).valueChanges().subscribe(snapshots => {
+      var items: any;
+      var numberItems: any = [];
+      items = snapshots;
+      items.forEach(snapshots => {
         this.ingredientsList.push(snapshots.name);
+        numberItems.push(snapshots.quantity);
       });
-    });
-    this.database.list("/ingredients").subscribe(snapshots => {
-      snapshots.forEach(snapshots => {
-        if (this.ingredientsList.indexOf(snapshots.name) == -1) {
-          this.ingredients.push(snapshots.name);
-          console.log("added: " + snapshots.name);
-        }
+      this.database.list("/ingredients").valueChanges().subscribe(snapshot => {
+        var item: any;
+        item = snapshot;
+        var key = 0;
+        item.forEach(snapshot => {
+          if (this.ingredientsList.indexOf(snapshot.name) == -1) {
+            this.ingredients.push(snapshot.name);
+          } else {
+            console.log(snapshot.price + "," + numberItems[key]);
+            this.category += snapshot.price * numberItems[key];
+            key++;
+          }
+        });
       });
-    });
+  });
   }
 
   addIngredient(ingredient) {
-    this.recipe = this.database.list("/recipe/" + this.key);
-    this.recipe.push({
+    this.database.list("/recipe/" + this.key).push({
       name: ingredient,
       quantity: this.quantity
+    });
+    this.recipe=this.database.list("/recipe/" + this.key).snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
     });
     this.getAvailableIngredients();
     this.quantity = null;
@@ -97,7 +126,7 @@ export class NewproductComponent implements OnInit {
        confirmButtonText: 'Ok',
        cancelButtonText:
         'Cancelar',
-        input: 'text',
+        input: 'number',
         inputValidator: function (value) {
           return new Promise(function (resolve, reject) {
             if (value) {
@@ -107,8 +136,8 @@ export class NewproductComponent implements OnInit {
             }
           })
         }
-    }).then(function (cant) {    
-      thix.recipe.update(key,{
+    }).then((cant)=> {    
+      this.database.list("/recipe/" + this.key).set(key,{
         name: ingredient.name,
         quantity: cant
       })
@@ -120,21 +149,63 @@ export class NewproductComponent implements OnInit {
     }) 
   }
 
+  handleFileSelect(evt){
+    var files = evt.target.files;
+    var file = files[0];
+  
+  if (files && file) {
+      var reader = new FileReader();
+
+      reader.onload =this._handleReaderLoaded.bind(this);
+
+      reader.readAsBinaryString(file);
+  }
+}
+
+_handleReaderLoaded(readerEvt) {
+   var binaryString = readerEvt.target.result;
+          this.image= 'data:image/jpeg;base64,'+btoa(binaryString);
+  }
+
   deleteIngredientElement(product,key){
-    this.recipe.remove(key);
+    this.database.list("/recipe/" + this.key).remove(key);
     this.getAvailableIngredients();    
   }
 
+  revertChanges(){
+    this.database.list("/products/"+this.key).remove();
+    this.database.list("/recipe/"+this.key).remove();
+    this.router.navigateByUrl("/products");    
+  }
+
+  ngOnDestroy(){
+    if(!this.saved){
+    this.database.list("/products/"+this.key).remove(); 
+    }   
+  }
+
   saveProduct(product){
+    swal({
+      title: "Hey!",
+      text: "¿Estas seguro que deseas crear el producto?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si!",
+      cancelButtonText: "No, volver"
+    }).then(_ => {
+    this.saved=true;
     this.database.list("/products").update(this.key,{
         "code":this.key,
         "description":this.description,
-        "image":"http://cdn-image.myrecipes.com/sites/default/files/tagalong-milkshake.jpg",
+        "image":this.image,
         "name":this.name,
-        "points":this.points,
-        "price":this.price,
-        "type":this.category
+        "points":((this.price/this.pointsToMoney).toFixed(2)),
+        "price":this.price.toFixed(0),
+        "type":this.category.toFixed(0)
     });
-    this.router.navigateByUrl("/products");      
+    this.router.navigateByUrl("/products");  
+  });    
 }
 }

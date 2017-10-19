@@ -23,7 +23,7 @@ import { RecipedetailsComponent } from './components/recipedetails/recipedetails
 import { NewrecipeComponent } from './components/newrecipe/newrecipe.component';
 import { MainComponent } from './components/main/main.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
-import {routing} from "./shared/app.routing";
+import { routing } from "./shared/app.routing";
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -32,6 +32,7 @@ import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { CommonModule } from '@angular/common';  
 import { NgVirtualKeyboardModule }  from '@protacon/ng-virtual-keyboard';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     CommonModule,
     ShowHidePasswordModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule // imports firebase/auth, only needed for auth features
      ],

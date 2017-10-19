@@ -14,9 +14,9 @@ import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import {
-  FirebaseListObservable,
   AngularFireDatabase
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: "app-recipedetails",
@@ -28,7 +28,7 @@ export class RecipedetailsComponent implements OnInit {
   ingredientsQuery: any;
   ingredientsList: any[];
   ingredients: any[];
-  recipe: FirebaseListObservable<any[]>;
+  recipe: any;
   id: any;
   @Input() name: string;
   @Input() category: string;
@@ -63,11 +63,11 @@ export class RecipedetailsComponent implements OnInit {
       });
     });
     this.ingredientsQuery = this.database
-      .list("/ingredients")
+      .list("/ingredients").valueChanges()
       .subscribe(snapshots => {
-        snapshots.forEach(snapshots => {
-          if (this.ingredientsList.indexOf(snapshots.name) == -1) {
-            this.ingredients.push(snapshots.name);
+        snapshots.forEach((snapshots,key) => {
+          if (this.ingredientsList.indexOf(snapshots[key].name) == -1) {
+            this.ingredients.push(snapshots[key].name);
           }
         });
       });

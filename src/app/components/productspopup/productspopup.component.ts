@@ -9,12 +9,10 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
-import { Location } from '@angular/common';
+import { Location } from "@angular/common";
 import swal from "sweetalert2";
-import {
-  FirebaseListObservable,
-  AngularFireDatabase
-} from "angularfire2/database";
+import { AngularFireDatabase } from "angularfire2/database";
+import { AngularFirestore } from "angularfire2/firestore";
 
 @Component({
   selector: "app-productspopup",
@@ -22,7 +20,7 @@ import {
   styleUrls: ["./productspopup.component.css"]
 })
 export class ProductspopupComponent implements OnInit {
-  products: FirebaseListObservable<any[]>;
+  products: any;
   orderProducts: Array<OrderProduct> = [];
 
   constructor(
@@ -31,7 +29,7 @@ export class ProductspopupComponent implements OnInit {
     public database: AngularFireDatabase,
     private location: Location
   ) {
-    this.products = database.list("/products");
+    this.products = database.list("/products").valueChanges();
     this.orderProducts = JSON.parse(localStorage.getItem("currentOrder"));
   }
 
@@ -59,17 +57,38 @@ export class ProductspopupComponent implements OnInit {
     }).then(
       function(cant) {
         var oldOrder = JSON.parse(localStorage.getItem("currentOrder"));
-        oldOrder.forEach((element, i) => {
-          if ((element.code == product.code)) {
-            console.log("previouscode: "+element.code+","+product.code)
-            oldOrder.splice(i, 1);
-          }
-        });
-        oldOrder.push(
-          new OrderProduct(product.code, product.name, cant, product.price)
-        );
-        console.log(JSON.stringify(oldOrder));
-        console.log("Added to Order");
+        if (oldOrder) {
+          oldOrder.forEach((element, i) => {
+            if (element.code == product.code) {
+              console.log("previouscode: " + element.code + "," + product.code);
+              oldOrder.splice(i, 1);
+            }
+          });
+          oldOrder.push(
+            new OrderProduct(
+              product.code,
+              product.name,
+              cant,
+              product.price,
+              product.points
+            )
+          );
+          console.log(JSON.stringify(oldOrder));
+          console.log("Added to Order");
+        }else{
+          oldOrder=[];
+          oldOrder.push(
+            new OrderProduct(
+              product.code,
+              product.name,
+              cant,
+              product.price,
+              product.points
+            )
+          );
+          console.log(JSON.stringify(oldOrder));
+          console.log("Added to Order");
+        }
         localStorage.setItem("currentOrder", JSON.stringify(oldOrder));
         thix.location.back();
       },

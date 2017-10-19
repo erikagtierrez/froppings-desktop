@@ -3,7 +3,8 @@ export class OrderProduct{
         public code:string,
         public name:string,
         public quantity: number,
-        public price:number
+        public price:number,
+        public points:number
     ){
         this.code=code;
         this.quantity=quantity;

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AngularFireDatabase,
-  FirebaseListObservable,
-  FirebaseObjectObservable
 } from "angularfire2/database";
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +10,10 @@ import {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  items: FirebaseListObservable<any[]>;
+  items: any;
   
   constructor(db: AngularFireDatabase) {
-    this.items = db.list('/products');
+    this.items = db.list('/products').valueChanges();
   }
 
   ngOnInit() {

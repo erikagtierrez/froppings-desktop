@@ -1,5 +1,5 @@
 <div class="col-md-6 col-md-offset-3 topSpace">
-    <div class="card" *ngFor="let ingredient of ingredients | async">
+    <div class="card">
       <div class="verticalcenter col-md-12">
         <div class="header">
           <div class="form-group">
@@ -14,10 +14,10 @@
       </div>
     <div class="row">
       <div class="">
-        <button type="submit" class="btn btn-info btn-fill pull-right " (click)="saveIngredient(ingredient,ingredient.$key)">Guardar Cambios</button>
+        <button type="submit" class="btn btn-info btn-fill pull-right " (click)="saveIngredient()">Guardar Cambios</button>
       </div>
       <div class="">
-          <button type="submit" class="btn btn-info btn-fill  bg-warning pull-right" (click)="deleteIngredient(ingredient,ingredient.$key)">Eliminar Ingrediente</button>
+          <button type="submit" class="btn btn-info btn-fill  bg-warning pull-right" (click)="deleteIngredient()">Eliminar Ingrediente</button>
         </div>
     </div>
   </div>

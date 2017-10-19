@@ -30,6 +30,16 @@
                 <div class="content">
                   <form #form="ngForm" (ngSubmit)="addProducts()">
                     <div class="row">
+                      <div class="col-md-3">
+                        <input type="radio" class="radioB" name="orderType" [value]="true" [(ngModel)]="orderType">
+                        <Label class="text-black"> Acumular Puntos</Label>
+                      </div>
+                      <div class="col-md-3">
+                        <input type="radio" class="radioB" name="orderType" [value]="false" [(ngModel)]="orderType">
+                        <Label class="text-black"> Canjear Puntos</Label>
+                      </div>
+                    </div>
+                    <div class="row">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label>Nombre</label>
@@ -53,18 +63,50 @@
                       <div class="col-md-3">
                         <div class="form-group">
                           <label>Dirección</label>
-                          <input type="text" class="form-control" placeholder="Dirección" [(ngModel)]="userAddress" name="userAddress" value="" required>
+                          <input type="text" class="form-control" placeholder="Dirección" [(ngModel)]="userAddress" name="userAddress" value="">
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Telefono</label>
-                          <input type="text" class="form-control" name="userPhone" [(ngModel)]="userPhone" placeholder="Telefono" required>
+                          <input type="text" class="form-control" name="userPhone" [(ngModel)]="userPhone" placeholder="Telefono">
                         </div>
                       </div>
                     </div>
-                    <button type="submit" [disabled]="!form.valid || !gotData" class="btn btn-info btn-fill pull-right" style="width: 31%;">Agregar Productos</button>
-                    <div class="clearfix"></div>
+                    <div class="row">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <input type="radio" class="radioB" name="isPromoCode" [value]="true" [(ngModel)]="isPromoCode" checked>
+                          <Label class="text-black">Código Cupón</Label>
+                        </div>
+                        <div class="col-md-3">
+                          <input type="radio" class="radioB" name="isPromoCode" [value]="false" [(ngModel)]="isPromoCode">
+                          <Label class="text-black">Promoción</Label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3" *ngIf="isPromoCode">
+                        <label>Codigo Cupon:</label>
+                        <input type="text" class="form-control" placeholder="Codigo" [(ngModel)]="couponCode" name="couponCode" value="">
+                      </div>
+                      <div class="col-md-3" *ngIf="!isPromoCode">
+                        <label>Promoción:</label>
+                        <select [(ngModel)]="promotionSelected" name="promotionSelected">
+                            <option value="" disabled selected >Seleccionar</option>
+                            <option *ngFor="let promotion of promotions"  [ngValue]="promotion">{{promotion}}</option>
+                            </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 col-md-offset-5">
+                        <a (click)="applyCoupon()" class="btn btn-primary btn-color" style="width: 100%;">{{discountButton}}</a>
+                      </div>
+                      <div class="col-md-4">
+                        <button type="submit" [disabled]="!form.valid || !gotData" class="btn btn-info btn-fill" style="width: 100%;">Agregar Productos</button>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
                   </form>
                   <div *ngIf="gotData && productCount>0">
                     <div class="card card-plain">
@@ -82,7 +124,7 @@
                           <tbody>
                             <tr *ngFor="let product of productList; let i=index" [attr.data-index]="i">
                               <td>{{product.name}}</td>
-                              <td>BsF. {{product.price}}</td>
+                              <td>Bs. {{product.price}}</td>
                               <td>{{product.quantity}}</td>
                               <td><i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" (click)=modifyOrderElement(product,i)></i>&emsp;
                                 <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteOrderElement(product,i)></i></td>
@@ -93,8 +135,11 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-md-3 col-md-offset-6">
-                        <h4 class="title">Total BsF: {{orderTotal}}</h4>
+                      <div class="col-md-3 col-md-offset-3">
+                        <h4 class="title text-danger">Total Puntos: {{pointsCount}}</h4>
+                      </div>
+                      <div class="col-md-3">
+                        <h4 class="title">Total Bs: {{orderTotal}}</h4>
                       </div>
                       <div class="col-md-2">
                         <button (click)="confirm()" class="btn btn-info btn-fill pull-right">Confirmar Compra</button>
