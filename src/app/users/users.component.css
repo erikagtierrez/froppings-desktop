@@ -1,0 +1,18 @@
+.button-dashboard {
+    margin: -0.5%;
+    color: #fff;
+    width: 100%;
+    height: auto;
+    font-weight: 300;
+    font-size: 1.2vw;
+    background: #6d1d46;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #6d1d46, #810d43);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6d1d46, #810d43);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-color: transparent;
+    opacity: 1;
+    margin-bottom: 3%;
+    box-shadow: 8px 8px 8px #DDDBDB;
+}

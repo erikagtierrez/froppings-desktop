@@ -33,6 +33,15 @@ import { CommonModule } from '@angular/common';
 import { NgVirtualKeyboardModule }  from '@protacon/ng-virtual-keyboard';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { PurchasesComponent } from './purchases/purchases.component';
+import { PromotionsComponent } from './promotions/promotions.component';
+import { ReportsComponent } from './reports/reports.component';
+import { UsersComponent } from './users/users.component';
+import { ConfigComponent } from './config/config.component';
+import { PurchaseDetailsComponent } from './purchase-details/purchase-details.component';
+import { NewPurchaseComponent } from './new-purchase/new-purchase.component';
+import { NewPromotionComponent } from './new-promotion/new-promotion.component';
+import { PromotionDetailsComponent } from './promotion-details/promotion-details.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +64,16 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     RecipedetailsComponent,
     NewrecipeComponent,
     MainComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    PurchasesComponent,
+    PromotionsComponent,
+    ReportsComponent,
+    UsersComponent,
+    ConfigComponent,
+    PurchaseDetailsComponent,
+    NewPurchaseComponent,
+    NewPromotionComponent,
+    PromotionDetailsComponent
   ],
   imports: [
     BrowserModule,

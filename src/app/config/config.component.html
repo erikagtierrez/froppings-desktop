@@ -1,0 +1,43 @@
+<div class="col-md-8 col-md-offset-2 topSpace">
+  <div class="card">
+    <div class="row">
+      <div class="header">
+        <h3 class="title">Configuración</h3>
+      </div>
+      <div class="content">
+        <form #form="ngForm" (ngSubmit)="modifyConfig()">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+              <div class="form-group">
+                <Label class="text-black">Razón Social:</Label>
+                <input type="text" class="form-control" disabled value="Froppings">
+              </div>
+              <div class="form-group">
+                <Label class="text-black">RIF:</Label>
+                <input type="text" class="form-control" disabled value="V-246379242">
+              </div>
+              <div class="form-group">
+                <Label class="text-black">Direccion:</Label>
+                <textarea rows="2" cols="4" class="form-control" name="address" [(ngModel)]="address" placeholder="Dirección" required></textarea>
+              </div>
+              <div class="form-group">
+                <Label class="text-black">IVA:</Label>
+                <input type="text" class="form-control" name="iva" [(ngModel)]="iva" placeholder="IVA" required>
+              </div>
+              <div class="form-group">
+                <h4 class="title">Tasa de Puntos:</h4>
+                <Label class="text-black">Valor de 1 punto en Bs:</Label>
+                <input type="text" class="form-control" name="pointsToMoney" [(ngModel)]="pointsToMoney" placeholder="Puntos" required>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-md-offset-8">
+              <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-fill" style="width: 100%;">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

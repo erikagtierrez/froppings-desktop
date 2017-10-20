@@ -1,5 +1,6 @@
 //import { MAIN_PANEL_ROUTES } from './../main-panel/main-panel.routing';
 //import { MainPanelComponent } from './../main-panel/main-panel.component';
+import { Routes } from "@angular/router";
 import { IngredientsdetailsComponent } from "./../ingredientsdetails/ingredientsdetails.component";
 import { NewingredientComponent } from "./../newingredient/newingredient.component";
 import { RecipedetailsComponent } from "./../recipedetails/recipedetails.component";
@@ -14,7 +15,15 @@ import { HomeComponent } from "./../home/home.component";
 import { FastuserComponent } from "./../fastuser/fastuser.component";
 import { OrderComponent } from "./../order/order.component";
 import { PointsComponent } from "./../points/points.component";
-import { Routes } from "@angular/router";
+import { PurchasesComponent } from "../../purchases/purchases.component";
+import { PromotionsComponent } from "../../promotions/promotions.component";
+import { UsersComponent } from "../../users/users.component";
+import { ReportsComponent } from "../../reports/reports.component";
+import { ConfigComponent } from "../../config/config.component";
+import { PromotionDetailsComponent } from "../../promotion-details/promotion-details.component";
+import { PurchaseDetailsComponent } from "../../purchase-details/purchase-details.component";
+import { NewPurchaseComponent } from "../../new-purchase/new-purchase.component";
+import { NewPromotionComponent } from "../../new-promotion/new-promotion.component";
 
 export const MAIN_ROUTING: Routes = [
   { path: '', redirectTo: "/dashboard", pathMatch: "full" },
@@ -31,5 +40,15 @@ export const MAIN_ROUTING: Routes = [
   { path: "recipedetails/:id", component: RecipedetailsComponent },
   { path: "ingredients", component: IngredientsComponent },
   { path: "newingredient", component: NewingredientComponent },
-  { path: "ingredientdetails/:id", component: IngredientsdetailsComponent }
+  { path: "ingredientdetails/:id", component: IngredientsdetailsComponent },
+  { path: "newPurchase", component: NewPurchaseComponent },
+  { path: "purchases", component: PurchasesComponent },
+  { path: "purchaseDetails/:id", component: PurchaseDetailsComponent },
+  { path: "newpromotion", component: NewPromotionComponent },
+  { path: "promotions", component: PromotionsComponent },
+  { path: "promotions/:id", component: PromotionDetailsComponent },
+  { path: "reports", component: ReportsComponent },
+  { path: "users", component: UsersComponent },
+  { path: "config", component: ConfigComponent },
+  
 ];

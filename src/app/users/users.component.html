@@ -1,0 +1,46 @@
+<div class="row button-action">
+  <div class="form-group col-md-3 col-md-offset-6">
+    <div class="input-group">
+      <input type="text" [(ngModel)]="rules" class="form-control" placeholder="Buscar...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+          <i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <button type="button" class="btn button-dashboard" [routerLink]="['/newpromotion']">Agregar Usuario</button>
+  </div>
+</div>
+<div class="row">
+  <div class="card col-md-10 col-md-offset-1" >
+    <div class="content table-responsive table-full-width ">
+      <table class="table table-hover">
+        <thead>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>CI</th>
+          <th>Correo Electrónico</th>
+          <th>Puntos</th>
+          <th>Permisología</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rec of users | async" >
+            <td>{{rec.name}}</td>
+            <td>{{rec.lastname}}</td>
+            <td>{{rec.id}}</td>
+            <td>{{rec.email}}</td>
+            <td>{{rec.points}}</td>
+            <td>{{rec.type}}</td>
+            <td>
+              <i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" (click)=modifyUser(rec,rec.key)></i> &emsp;
+              <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteUser(rec,rec.key)></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

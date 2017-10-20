@@ -1,0 +1,41 @@
+<div class="row button-action">
+  <div class="form-group col-md-3 col-md-offset-6">
+    <div class="input-group">
+      <input type="text" [(ngModel)]="rules" class="form-control" placeholder="Buscar...">
+      <span class="input-group-btn">
+      <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i></button>
+    </span>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <button type="button" class="btn button-dashboard" [routerLink]="['/newPurchase']">Agregar Compra</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-3 col-lg-3 col-md-3" *ngFor="let purchase of purchases | async | filter:rules">
+    <div class="card" [routerLink]="['/purchaseDetails',purchase.key]">
+      <div class="header">
+        <h4 class="title">{{purchase.seller}}</h4>
+        <p class="category text-danger">{{purchase.datetime}}</p>
+      </div>
+      <div class="content">
+        <h5 class="text-black title">Productos:</h5>
+        <div class="card margin-bottom-d">
+          <div *ngFor="let product of purchase.products" class="">
+            <div class="row">
+              <div class="col-md-7">
+                <h5 class="title">{{product.name}}<span class="color-purple"> ({{product.quantity}})</span></h5>
+              </div>
+              <div class="col-md-5">
+                <h5 class="title">Bs. {{product.price}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card ">
+          <h5 class="title paddindx">Total: {{purchase.total}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
