@@ -48,7 +48,7 @@ export class UsersComponent implements OnInit {
       cancelButtonText: 'No, volver',
     }).then( _ => {
       console.log(key);
-      //this.users = this.database.list("/users").remove(key);
+      this.database.list("/users").remove(key);
     });
   }
 

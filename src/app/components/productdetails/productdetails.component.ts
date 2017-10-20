@@ -199,6 +199,12 @@ export class ProductdetailsComponent implements OnInit {
     this.image = "data:image/jpeg;base64," + btoa(binaryString);
   }
 
+  deleteProduct(key){
+    this.database.list("products").remove(this.id);
+    this.router.navigateByUrl("/products");    
+  }
+
+
   revertChanges() {
     if (this.oldIngredient) {
       var some = [];

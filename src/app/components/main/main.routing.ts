@@ -24,6 +24,8 @@ import { PromotionDetailsComponent } from "../../promotion-details/promotion-det
 import { PurchaseDetailsComponent } from "../../purchase-details/purchase-details.component";
 import { NewPurchaseComponent } from "../../new-purchase/new-purchase.component";
 import { NewPromotionComponent } from "../../new-promotion/new-promotion.component";
+import { NewUserComponent } from "app/new-user/new-user.component";
+import { UserdetailsComponent } from "app/userdetails/userdetails.component";
 
 export const MAIN_ROUTING: Routes = [
   { path: '', redirectTo: "/dashboard", pathMatch: "full" },
@@ -49,6 +51,8 @@ export const MAIN_ROUTING: Routes = [
   { path: "promotions/:id", component: PromotionDetailsComponent },
   { path: "reports", component: ReportsComponent },
   { path: "users", component: UsersComponent },
+  { path: "newuser", component: NewUserComponent },
+  { path: "userdetails/:id", component: UserdetailsComponent },
   { path: "config", component: ConfigComponent },
   
 ];

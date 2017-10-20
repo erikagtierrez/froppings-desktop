@@ -42,6 +42,8 @@ import { PurchaseDetailsComponent } from './purchase-details/purchase-details.co
 import { NewPurchaseComponent } from './new-purchase/new-purchase.component';
 import { NewPromotionComponent } from './new-promotion/new-promotion.component';
 import { PromotionDetailsComponent } from './promotion-details/promotion-details.component';
+import { NewUserComponent } from './new-user/new-user.component';
+import { UserdetailsComponent } from './userdetails/userdetails.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { PromotionDetailsComponent } from './promotion-details/promotion-details
     PurchaseDetailsComponent,
     NewPurchaseComponent,
     NewPromotionComponent,
-    PromotionDetailsComponent
+    PromotionDetailsComponent,
+    NewUserComponent,
+    UserdetailsComponent
   ],
   imports: [
     BrowserModule,

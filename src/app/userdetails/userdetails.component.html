@@ -1,0 +1,64 @@
+<div class="col-md-6 col-md-offset-3 topSpace">
+    <div class="card">
+      <form #form="ngForm" class="content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" placeholder="Nombre" name="userName" [(ngModel)]="userName" value="" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="userLastname" name="userLastname" value="" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Cedula/RIF</label>
+              <input type="number" class="form-control" placeholder="Cedula" [(ngModel)]="userId" name="userId" value="" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Puntos</label>
+              <input type="number" class="form-control" placeholder="Number" [(ngModel)]="userPoints" name="userPoints" value="" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Correo Electrónico</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="email" placeholder="Correo Electrónico" required>
+          </div>
+        </div>
+      </div>
+      <div class="row">        
+        <div class="col-md-12">
+            <label for="exampleInputEmail1">Permisología</label>          
+          <select [(ngModel)]="selectedPermission" style="height:40px" name="selectedPermission" required>
+            <option value="" disabled selected>Seleccionar</option>
+            <option value="Administracion">Usuario Administrador</option>
+            <option value="Cajero">Usuario Cajero</option>
+            <option value="Mercadeo">Usuario Mercadeo</option>
+            <option value="Cliente">Usuario Cliente</option>
+          </select>
+        </div>
+      </div>
+      <div class="row footer">
+          <div class="col-md-3 col-md-offset-5">
+            <button type="submit" class="btn btn-info btn-fill pull-right" (click)="revertChanges()" style="width: 100%;">Cancelar</button>
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="!form.valid" (click)="saveUser()"
+              style="width: 100%;">Guardar Usuario</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

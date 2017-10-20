@@ -387,6 +387,7 @@ export class OrderComponent implements OnInit {
     }
   }
 
+
   setupOrderPDF() {
     // playground requires you to assign document definition to a variable called d;
     var columnsName: any = [];
