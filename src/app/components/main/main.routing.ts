@@ -15,17 +15,19 @@ import { HomeComponent } from "./../home/home.component";
 import { FastuserComponent } from "./../fastuser/fastuser.component";
 import { OrderComponent } from "./../order/order.component";
 import { PointsComponent } from "./../points/points.component";
-import { PurchasesComponent } from "../../purchases/purchases.component";
-import { PromotionsComponent } from "../../promotions/promotions.component";
-import { UsersComponent } from "../../users/users.component";
-import { ReportsComponent } from "../../reports/reports.component";
-import { ConfigComponent } from "../../config/config.component";
-import { PromotionDetailsComponent } from "../../promotion-details/promotion-details.component";
-import { PurchaseDetailsComponent } from "../../purchase-details/purchase-details.component";
-import { NewPurchaseComponent } from "../../new-purchase/new-purchase.component";
-import { NewPromotionComponent } from "../../new-promotion/new-promotion.component";
-import { NewUserComponent } from "app/new-user/new-user.component";
-import { UserdetailsComponent } from "app/userdetails/userdetails.component";
+import { PurchasesComponent } from "../purchases/purchases.component";
+import { PromotionsComponent } from "../promotions/promotions.component";
+import { UsersComponent } from "../users/users.component";
+import { ReportsComponent } from "../reports/reports.component";
+import { ConfigComponent } from "../config/config.component";
+import { PromotionDetailsComponent } from "../promotion-details/promotion-details.component";
+import { PurchaseDetailsComponent } from "../purchase-details/purchase-details.component";
+import { NewPurchaseComponent } from "../new-purchase/new-purchase.component";
+import { NewPromotionComponent } from "../new-promotion/new-promotion.component";
+import { NewUserComponent } from "../new-user/new-user.component";
+import { UserdetailsComponent } from "../userdetails/userdetails.component";
+import { NewfeaturedComponent } from "../newfeatured/newfeatured.component";
+import { FeaturedComponent } from "../featured/featured.component";
 
 export const MAIN_ROUTING: Routes = [
   { path: '', redirectTo: "/dashboard", pathMatch: "full" },
@@ -48,11 +50,12 @@ export const MAIN_ROUTING: Routes = [
   { path: "purchaseDetails/:id", component: PurchaseDetailsComponent },
   { path: "newpromotion", component: NewPromotionComponent },
   { path: "promotions", component: PromotionsComponent },
-  { path: "promotions/:id", component: PromotionDetailsComponent },
+  { path: "promotiondetails/:id", component: PromotionDetailsComponent },
   { path: "reports", component: ReportsComponent },
   { path: "users", component: UsersComponent },
   { path: "newuser", component: NewUserComponent },
   { path: "userdetails/:id", component: UserdetailsComponent },
   { path: "config", component: ConfigComponent },
-  
+  { path: "featured", component: FeaturedComponent },
+  { path: "newfeatured", component: NewfeaturedComponent },  
 ];

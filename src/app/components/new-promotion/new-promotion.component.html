@@ -1,0 +1,103 @@
+<div class="col-md-8 col-sm-10 col-md-offset-2 topSpace">
+  <div class="card">
+    <form #form="ngForm" class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <h6 class="category"> Tipo de Promoción:</h6>
+        </div>
+        <div class="col-md-3">
+          <input type="radio" class="radioB" name="promoType" [value]="true" [(ngModel)]="promoType">
+          <Label class="text-black">Promoción</Label>
+        </div>
+        <div class="col-md-3">
+          <input type="radio" class="radioB" name="promoType" [value]="false" [(ngModel)]="promoType">
+          <Label class="text-black"> Cupón</Label>
+        </div>
+      </div>
+      <div *ngIf="promoType==true">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" placeholder="Nombre" name="name" [(ngModel)]="name" value="" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Fecha</label>
+              <br>
+              <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="model" required></my-date-range-picker>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Descuento</label>
+              <input type="number" class="form-control" placeholder="Descuento" [(ngModel)]="discount" name="discount" value="" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Monto mínimo de compra</label>
+              <input type="number" class="form-control" placeholder="Monto mínimo de compra" [(ngModel)]="minPurchase" name="minPurchase"
+                value="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="promoType==false">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <button class="btn btn-info btn-fill" (click)="genCode()">Generar Código</button>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Codigo" disabled name="code" [(ngModel)]="code" value="" required>                
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Fecha</label>
+              <br>
+              <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="model2" required></my-date-range-picker>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Descuento (%)</label>
+              <input type="number" class="form-control" [max]="99" [min]="1" placeholder="Descuento" [(ngModel)]="discountPercent" name="discountPercent" value="" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Monto mínimo de compra</label>
+              <input type="number" class="form-control" placeholder="Monto mínimo de compra" [(ngModel)]="minPurchaseCoupon" name="minPurchaseCoupon"
+                value="" required>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="row footer">
+    <div class="col-md-3 col-md-offset-5">
+      <button type="submit" class="btn btn-info btn-fill pull-right" (click)="revertChanges()" style="width: 100%;">Cancelar</button>
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="!form.valid" (click)="savePromo()" style="width: 100%;">Agregar Promoción</button>
+    </div>
+  </div>
+  </form>
+</div>
+</div>

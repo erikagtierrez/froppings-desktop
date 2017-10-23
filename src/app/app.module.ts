@@ -33,17 +33,20 @@ import { CommonModule } from '@angular/common';
 import { NgVirtualKeyboardModule }  from '@protacon/ng-virtual-keyboard';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { PurchasesComponent } from './purchases/purchases.component';
-import { PromotionsComponent } from './promotions/promotions.component';
-import { ReportsComponent } from './reports/reports.component';
-import { UsersComponent } from './users/users.component';
-import { ConfigComponent } from './config/config.component';
-import { PurchaseDetailsComponent } from './purchase-details/purchase-details.component';
-import { NewPurchaseComponent } from './new-purchase/new-purchase.component';
-import { NewPromotionComponent } from './new-promotion/new-promotion.component';
-import { PromotionDetailsComponent } from './promotion-details/promotion-details.component';
-import { NewUserComponent } from './new-user/new-user.component';
-import { UserdetailsComponent } from './userdetails/userdetails.component';
+import { PurchasesComponent } from './components/purchases/purchases.component';
+import { PromotionsComponent } from './components/promotions/promotions.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { UsersComponent } from './components/users/users.component';
+import { ConfigComponent } from './components/config/config.component';
+import { PurchaseDetailsComponent } from './components/purchase-details/purchase-details.component';
+import { NewPurchaseComponent } from './components/new-purchase/new-purchase.component';
+import { NewPromotionComponent } from './components/new-promotion/new-promotion.component';
+import { PromotionDetailsComponent } from './components/promotion-details/promotion-details.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
+import { UserdetailsComponent } from './components/userdetails/userdetails.component';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { FeaturedComponent } from './components/featured/featured.component';
+import { NewfeaturedComponent } from './components/newfeatured/newfeatured.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +80,9 @@ import { UserdetailsComponent } from './userdetails/userdetails.component';
     NewPromotionComponent,
     PromotionDetailsComponent,
     NewUserComponent,
-    UserdetailsComponent
+    UserdetailsComponent,
+    FeaturedComponent,
+    NewfeaturedComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +95,7 @@ import { UserdetailsComponent } from './userdetails/userdetails.component';
     ShowHidePasswordModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
+    MyDateRangePickerModule,
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule // imports firebase/auth, only needed for auth features
      ],

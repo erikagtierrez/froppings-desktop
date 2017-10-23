@@ -113,7 +113,7 @@ export class FastuserComponent implements OnInit {
   getUserData() {
     const user = this.database
       .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch.toString())
+        ref.orderByChild("id").equalTo(this.idSearch)
       )
       .snapshotChanges()
       .subscribe(snapshots => {
@@ -124,7 +124,7 @@ export class FastuserComponent implements OnInit {
       });
     const userPoints = this.database
       .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch.toString())
+        ref.orderByChild("id").equalTo(this.idSearch)
       )
       .valueChanges()
       .subscribe(snapshots => {

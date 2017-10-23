@@ -113,7 +113,7 @@ export class OrderComponent implements OnInit {
   getUserData() {
     const user = this.database
       .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch.toString())
+        ref.orderByChild("id").equalTo(this.idSearch)
       )
       .snapshotChanges()
       .subscribe(snapshots => {
@@ -124,7 +124,7 @@ export class OrderComponent implements OnInit {
       });
     const userPoints = this.database
       .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch.toString())
+        ref.orderByChild("id").equalTo(this.idSearch)
       )
       .valueChanges()
       .subscribe(snapshots => {
@@ -538,7 +538,7 @@ export class OrderComponent implements OnInit {
             points: this.pointsCount,
             products: this.productList,
             total: this.orderTotal,
-            user: this.fireAuth.auth.currentUser.uid
+            user: this.userId
           })
           .then(_ => this.savePayment());
       } else {

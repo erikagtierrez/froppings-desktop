@@ -1,0 +1,37 @@
+<div class="row button-action">
+  <div class="form-group col-md-3 col-md-offset-6">
+    <div class="input-group">
+      <input type="text" [(ngModel)]="rules" class="form-control" placeholder="Buscar...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+          <i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <button type="button" class="btn button-dashboard" [routerLink]="['/newpromotion']">Agregar Promoción</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let item of items| async | filter:rules">
+    <div class="card promo" [routerLink]="['/promotiondetails',item.key]" *ngIf="item.type=='promo'">
+      <div class="header">
+        <h4 class="title text-white">{{item.name}}</h4>
+        <p class="category text-white text-bold">Bs. {{item.discount}} OFF</p>
+      </div>
+      <div class="content">
+        <img class="img-producto" src={{item.image}} class="img-responsive ">
+      </div>
+    </div>
+    <div class="card promo" [routerLink]="['/promotiondetails',item.key]" *ngIf="item.type=='coupon'">
+      <div class="header">
+        <h4 class="title text-white">Código: {{item.code}}</h4>
+        <p class="category text-white text-bold">{{item.discount}}% OFF</p>
+      </div>
+      <div class="content">
+        <img class="img-producto" src={{item.image}} class="img-responsive ">
+      </div>
+    </div>
+  </div>
+</div>

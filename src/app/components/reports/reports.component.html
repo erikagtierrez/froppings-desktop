@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="row button-action">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="row content">
+          <div class="col-md-7 header">
+            <h4 class="title">Producto más Vendido</h4>
+            <p class="title text-danger">Mes de {{month}}</p>
+          </div>
+          <div class="col-md-5">
+            <div class="card" [routerLink]="['/productdetails']">
+              <div class="content">
+                <h4 class="title">{{productSoldOut.name}}</h4>
+                <p class="category">Bs.{{productSoldOut.price}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="row content">
+          <div class="col-md-7 header">
+            <h4 class="title">Producto menos Vendido</h4>
+            <p class="title text-danger">Mes de {{month}}</p>
+          </div>
+          <div class="col-md-5">
+            <div class="card" [routerLink]="['/productdetails']">
+              <div class="content">
+                <h4 class="title">{{productNotSoldOut.name}}</h4>
+                <p class="category">Bs.{{productNotSoldOut.price}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row button-action">
+    <div class="form-group col-md-4 col-md-offset-7">
+      <div class="input-group">
+        <input type="text" [(ngModel)]="rules" class="form-control" placeholder="Buscar...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i>
+            </button>
+          </span>
+      </div>
+    </div>
+  </div>
+<div class="row" *ngIf="reportType=='home'">
+  <div class="card col-md-10 col-md-offset-1">
+    <div class="content table-responsive table-full-width ">
+      <table class="table table-hover">
+        <thead>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>CI</th>
+          <th>Productos</th>
+          <th>Puntos</th>
+          <th>Total</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rec of orderList | filter:rules; let i=index;">
+            <td>{{rec.created}}</td>
+            <td>{{rec.type}}</td>
+            <td>{{rec.name}}</td>
+            <td>{{rec.id}}</td>
+            <td>
+              <h6 *ngFor="let recx of orderList[i].products">{{recx.name}}</h6>
+            </td>
+            <td>{{rec.points}}</td>
+            <td>{{rec.total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

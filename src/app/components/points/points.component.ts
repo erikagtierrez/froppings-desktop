@@ -43,22 +43,21 @@ export class PointsComponent implements OnInit {
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase
   ) {
-    const itemsList = database
-      .list("users", ref => ref.orderByChild("id").equalTo("24637924"))
-      .valueChanges();
-    itemsList.subscribe(console.log);
+    
   }
 
   ngOnInit() {}
 
   searchPoints() {
+    console.log(this.idPoints);    
     const userPoints = this.database
-      .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idPoints.toString())
+      .list("/users", ref =>
+        ref.orderByChild("id").equalTo(this.idPoints)
       )
       .valueChanges();
     userPoints.subscribe(result => {
       this.user = result;
+      console.log(this.user);      
       this.user.forEach(re => {
         console.log(re.points);
         this.avaliablePoints = re.points;
@@ -86,6 +85,6 @@ export class PointsComponent implements OnInit {
       } else {
         this.found = false;
       }
-    }, 1500);
+    }, 2200);
   }
 }
