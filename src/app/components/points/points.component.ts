@@ -13,6 +13,10 @@ import {
   AngularFirestoreCollection
 } from "angularfire2/firestore";
 import { AngularFireDatabase } from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 export class User {
   constructor(
@@ -41,7 +45,8 @@ export class PointsComponent implements OnInit {
   constructor(
     private router: Router,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase
   ) {
     
   }
@@ -50,11 +55,11 @@ export class PointsComponent implements OnInit {
 
   searchPoints() {
     console.log(this.idPoints);    
-    const userPoints = this.database
-      .list("/users", ref =>
-        ref.orderByChild("id").equalTo(this.idPoints)
-      )
-      .valueChanges();
+    const userPoints = this.afoDatabase
+      .list("/users",{query:{
+        orderByChild:"id",
+        equalTo: this.idPoints
+      }});
     userPoints.subscribe(result => {
       this.user = result;
       console.log(this.user);      
@@ -65,7 +70,7 @@ export class PointsComponent implements OnInit {
         this.found = true;
         this.pointProducts = this.database
           .list("products", ref =>
-            ref.orderByChild("points").endAt(this.avaliablePoints.toString())
+            ref.orderByChild("points").startAt(0).endAt(this.avaliablePoints)
           )
           .valueChanges();
       });

@@ -44,7 +44,7 @@ export class FastuserComponent implements OnInit {
   productList: any;
   pointsCount: number = 0;
   discountButton = "Aplicar Descuento";
-  discount: number;
+  discount: number=0;
   pointsTotal: number = 0;
   pointsToMoney: any;
   address: any;
@@ -380,11 +380,11 @@ export class FastuserComponent implements OnInit {
     // playground requires you to assign document definition to a variable called d;
     var columnsName: any = [];
     var ivaTotal = this.orderTotal * (this.iva / 100);
-    var subTotal = this.orderTotal - ivaTotal;
+    var subTotal = this.orderTotal + ivaTotal;
     this.productList.forEach((element, key) => {
       columnsName.push({
         columns: [
-          { width: 220, text: element.name },
+          { width: 220, text: element.name +" ("+element.quantity+")"},          
           {
             alignment: "right",
             text: "Bs. " + Number(element.price).toLocaleString()
@@ -401,6 +401,7 @@ export class FastuserComponent implements OnInit {
         { text: "FROPPINGS", style: "header" },
         { text: "FROPPINGS, FP", style: "center" },
         { text: this.address, style: "direccion" },
+        { text: "Fecha: "+moment(new Date()).format("DD/MM/YYYY h:mm:ss"), style: "" },
         { text: "Información del Cliente", style: "bold" },
         {
           text: "Nombre del Cliente: " + this.userName + " " + this.userLastname
@@ -417,6 +418,18 @@ export class FastuserComponent implements OnInit {
           text:
             "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",
           style: "paddingbottom"
+        },
+        {
+          columns: [
+            {
+              width: 220,
+              text: "Descuento"
+            },
+            {
+              text: "Bs. " + this.discount,
+              alignment: "right"
+            }
+          ]
         },
         {
           columns: [

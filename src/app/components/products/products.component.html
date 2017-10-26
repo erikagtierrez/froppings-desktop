@@ -13,7 +13,7 @@
 </div>
 <div class="row">
     <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let item of items| async | filter:rules" >
-        <div class="card" [routerLink]="['/productdetails',item.code]">
+        <div class="card" [routerLink]="['/productdetails',item.key]">
             <div class="header">
                 <h4 class="title">{{item.name}}</h4>
                 <p class="category">Bs. {{item.price}}</p>

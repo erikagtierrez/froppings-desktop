@@ -25,6 +25,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class IngredientsdetailsComponent implements OnInit {
   ingredients: any;
+  selectedUnit: any;
   id: any;
   @Input() name: string;
   @Input() price: string;
@@ -39,10 +40,11 @@ export class IngredientsdetailsComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
     this.ingredients = this.database
-    .list("ingredients/"+this.id+"/").valueChanges().subscribe(snapshots => {
+    .object("ingredients/"+this.id+"/").valueChanges().subscribe(snapshots => {
       var items:any=snapshots;
-        this.name = items[0]; 
-        this.price = items[1];        
+        this.name = items.name; 
+        this.price = items.price;
+        this.selectedUnit=items.unit;        
     });
   }
 
@@ -50,7 +52,8 @@ export class IngredientsdetailsComponent implements OnInit {
     this.database
     .list("ingredients/").set(this.id, {
       name: this.name,
-      price: this.price
+      price: this.price,
+      unit: this.selectedUnit      
     });
     this.router.navigateByUrl("/ingredients");
   }

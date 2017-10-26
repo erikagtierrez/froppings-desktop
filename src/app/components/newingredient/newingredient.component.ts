@@ -25,6 +25,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class NewingredientComponent implements OnInit {
   ingredients: any;
+  selectedUnit: any;
   @Input() name: string;
   @Input() price: string;
 
@@ -41,7 +42,8 @@ export class NewingredientComponent implements OnInit {
     this.ingredients = this.database.list("/ingredients");
     this.ingredients.push({
       name: this.name,
-      price: this.price
+      price: this.price,
+      unit: this.selectedUnit
     });
     this.router.navigateByUrl("/ingredients");    
   }

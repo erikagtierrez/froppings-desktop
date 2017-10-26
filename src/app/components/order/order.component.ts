@@ -44,7 +44,7 @@ export class OrderComponent implements OnInit {
   productList: any;
   pointsCount: number = 0;
   discountButton = "Aplicar Descuento";
-  discount: number;
+  discount: number=0;
   pointsTotal: number = 0;
   pointsToMoney: any;
   address: any;
@@ -396,7 +396,7 @@ export class OrderComponent implements OnInit {
     this.productList.forEach((element, key) => {
       columnsName.push({
         columns: [
-          { width: 220, text: element.name },
+          { width: 220, text: element.name +" ("+element.quantity+")"},
           {
             alignment: "right",
             text: "Bs. " + Number(element.price).toLocaleString()
@@ -413,6 +413,7 @@ export class OrderComponent implements OnInit {
         { text: "FROPPINGS", style: "header" },
         { text: "FROPPINGS, FP", style: "center" },
         { text: this.address, style: "direccion" },
+        { text: "Fecha: "+moment(new Date()).format("DD/MM/YYYY h:mm:ss"), style: "" },        
         { text: "Información del Cliente", style: "bold" },
         {
           text: "Nombre del Cliente: " + this.userName + " " + this.userLastname
@@ -429,6 +430,17 @@ export class OrderComponent implements OnInit {
           text:
             "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",
           style: "paddingbottom"
+        },{
+          columns: [
+            {
+              width: 220,
+              text: "Descuento"
+            },
+            {
+              text: "Bs. " + this.discount,
+              alignment: "right"
+            }
+          ]
         },
         {
           columns: [
@@ -544,6 +556,7 @@ export class OrderComponent implements OnInit {
       } else {
         if (this.points < this.pointsCount) {
           totalValue = (this.pointsCount - this.points) * this.pointsToMoney;
+          this.discount+=this.points* this.pointsToMoney;        
           this.pointsTotal = 0;
           promise = this.database
             .list("orders")
@@ -557,6 +570,7 @@ export class OrderComponent implements OnInit {
             .then(_ => this.savePayment());
         } else {
           this.pointsTotal = this.points - this.pointsCount;
+          this.discount+=this.pointsCount*this.pointsToMoney;                  
           promise = this.database
             .list("orders")
             .push({

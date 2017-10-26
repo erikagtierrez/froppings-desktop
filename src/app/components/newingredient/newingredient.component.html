@@ -1,22 +1,29 @@
 <div class="col-md-6 col-md-offset-3 topSpace">
-        <div class="card">
-          <div class="verticalcenter col-md-12">
-            <div class="header">
-              <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" [(ngModel)]="name" name="name" placeholder="Nombre" value="Producto 1">
-              </div>
-              <div class="form-group">
-                <label>Precio</label>
-                <input type="number" class="form-control" [(ngModel)]="price" name="price" placeholder="Precio" value="2500">
-              </div>
-            </div>
-          </div>
-        <div class="row">
-          <div class="">
-            <button type="submit" class="btn btn-info btn-fill pull-right " (click)="saveIngredient()">Guardar Cambios</button>
-          </div>
+  <div class="card">
+    <div class="verticalcenter col-md-12">
+      <div class="header">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" class="form-control" [(ngModel)]="name" name="name" placeholder="Nombre" value="Producto 1">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Unidad de medida</label>
+          <select [(ngModel)]="selectedUnit" style="height:40px" name="selectedUnit" required>
+            <option value="" disabled selected>Seleccionar</option>
+            <option value="kilogramos">Kilogramos</option>
+            <option value="litros">Litros</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Precio</label>
+          <input type="number" class="form-control" [(ngModel)]="price" name="price" placeholder="Precio" value="2500">
         </div>
       </div>
     </div>
-    
+    <div class="row">
+      <div class="">
+        <button type="submit" class="btn btn-info btn-fill pull-right " (click)="saveIngredient()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

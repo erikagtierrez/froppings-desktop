@@ -26,6 +26,7 @@ import { AuthenticationComponent } from './components/authentication/authenticat
 import { routing } from "./shared/app.routing";
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireOfflineModule } from 'angularfire2-offline';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 import { ShowHidePasswordModule } from 'ngx-show-hide-password';
@@ -47,6 +48,13 @@ import { UserdetailsComponent } from './components/userdetails/userdetails.compo
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { FeaturedComponent } from './components/featured/featured.component';
 import { NewfeaturedComponent } from './components/newfeatured/newfeatured.component';
+
+export const firebaseConfig={
+  apiKey: 'AIzaSyCW_RhruwT650FcUohbkBNvF25bjsLw8iY',
+  authDomain: 'froppings-dafe4.firebaseapp.com',
+  databaseURL: 'https://froppings-dafe4.firebaseio.com',
+  storageBucket: 'froppings-dafe4.appspot.com',
+}
 
 @NgModule({
   declarations: [
@@ -94,7 +102,8 @@ import { NewfeaturedComponent } from './components/newfeatured/newfeatured.compo
     CommonModule,
     ShowHidePasswordModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
+    AngularFireOfflineModule,
     MyDateRangePickerModule,
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule // imports firebase/auth, only needed for auth features

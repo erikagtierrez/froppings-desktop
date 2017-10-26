@@ -22,6 +22,7 @@ import {
 })
 export class ProductsComponent implements OnInit {
   items: any;
+
   
   constructor(
     private router: Router,
@@ -29,10 +30,13 @@ export class ProductsComponent implements OnInit {
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase
   ) { 
-    this.items = database.list('/products').valueChanges();    
+    this.items = database.list('/products').snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+   });
   }
 
   ngOnInit() {
+    
   }
 
 }

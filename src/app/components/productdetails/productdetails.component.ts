@@ -52,6 +52,7 @@ export class ProductdetailsComponent implements OnInit {
   ) {}
 
   getAvailableIngredients() {
+    this.category=0;
     this.quantity=0;
     this.ingredients = [];
     this.ingredientsList = [];

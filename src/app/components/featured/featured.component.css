@@ -1,0 +1,67 @@
+.button-dashboard {
+    margin: -0.5%;
+    color: #fff;
+    width: 100%;
+    height: auto;
+    font-weight: 300;
+    font-size: 1.2vw;
+    background: #6d1d46;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #6d1d46, #810d43);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6d1d46, #810d43);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-color: transparent;
+    opacity: 1;
+    margin-bottom: 3%;
+    box-shadow: 8px 8px 8px #DDDBDB;
+}
+
+.promo{
+    background: #cc2b5e; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient( left, #cc2b5e, #753a88); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left,#cc2b5e, #753a88); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left,#cc2b5e, #753a88); /* For Firefox 3.6 to 15 */
+    background: linear-gradient( to left, #cc2b5e, #753a88); /* Standard syntax */
+}
+
+.promo2{
+    background: #b06ab3; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient( left, #4568dc, #5475e2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left,#4568dc, #5475e2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left,#4568dc, #5475e2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient( to left, #4568dc, #5475e2); /* Standard syntax */
+}
+
+.img-producto{
+    max-width: 100%;
+}
+
+
+.text-white{
+    color:white;    
+}
+
+.text-bold{
+    font-weight: bold;
+}
+
+.row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .row.display-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.img-pro{
+    max-height: 100px;
+}

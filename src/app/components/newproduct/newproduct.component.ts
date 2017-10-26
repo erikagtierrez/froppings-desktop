@@ -201,7 +201,7 @@ _handleReaderLoaded(readerEvt) {
         "description":this.description,
         "image":this.image,
         "name":this.name,
-        "points":((this.price/this.pointsToMoney).toFixed(2)),
+        "points":new Number(((this.price/this.pointsToMoney).toFixed(2))),
         "price":this.price.toFixed(0),
         "type":this.category.toFixed(0)
     });
