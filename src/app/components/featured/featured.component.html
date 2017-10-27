@@ -15,7 +15,7 @@
 </div>
 <div class="row  display-flex">
   <div class="col-xl-2 col-lg-3 col-md-3 clearfix container-fluid" *ngFor="let item of items | async | filter:rules">
-    <div class="card card-columns" (click)="deleteFeatured(item.key)" *ngIf="item.type=='image'">
+    <div class="card card-columns" (click)="deleteFeatured(item.$key)" *ngIf="item.type=='image'">
       <div class="content col-md-5">
         <img src={{item.image}} class="img-responsive img-pro">
       </div>
@@ -23,13 +23,13 @@
         <h5 class="title">{{item.name}}</h5>
       </div>
     </div>
-    <div class="card promo2 card-columns" (click)="deleteFeatured(item.key)" *ngIf="item.type=='message'">
+    <div class="card promo2 card-columns" (click)="deleteFeatured(item.$key)" *ngIf="item.type=='message'">
       <div class="content">
         <h4 class="title text-white">{{item.name}}</h4>
         <p class="category text-white">{{item.description}}</p>
       </div>
     </div>
-    <div class="card" (click)="deleteFeatured(item.key)" *ngIf="item.type=='product'">
+    <div class="card" (click)="deleteFeatured(item.$key)" *ngIf="item.type=='product'">
       <div class="content col-md-7">
         <img src={{item.image}} class="img-responsive img-pro">
       </div>
@@ -38,7 +38,7 @@
         <p class="category">Bs. {{item.price}}</p>
       </div>
     </div>
-    <div class="card promo card-columns" (click)="deleteFeatured(item.key)" *ngIf="item.type=='promo'">
+    <div class="card promo card-columns" (click)="deleteFeatured(item.$key)" *ngIf="item.type=='promo'">
       <div class="header">
         <h4 class="title text-white">{{item.name}}</h4>
         <p class="category text-white text-bold">Bs. {{item.discount}} OFF</p>
@@ -46,7 +46,7 @@
       <div class="content">
       </div>
     </div>
-    <div class="card promo card-columns" (click)="deleteFeatured(item.key)" *ngIf="item.type=='coupon'">
+    <div class="card promo card-columns" (click)="deleteFeatured(item.$key)" *ngIf="item.type=='coupon'">
       <div class="header">
         <h4 class="title text-white">Código: {{item.code}}</h4>
         <p class="category text-white text-bold">{{item.discount}}% OFF</p>

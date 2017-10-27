@@ -35,8 +35,8 @@
             <td>{{rec.points}}</td>
             <td>{{rec.type}}</td>
             <td>
-              <i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" [routerLink]="['/userdetails',rec.key]"></i> &emsp;
-              <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteUser(rec,rec.key)></i>
+              <i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" [routerLink]="['/userdetails',rec.$key]"></i> &emsp;
+              <i class="fa fa-trash" style="color:red;" aria-hidden="true" (click)=deleteUser(rec,rec.$key)></i>
             </td>
           </tr>
         </tbody>

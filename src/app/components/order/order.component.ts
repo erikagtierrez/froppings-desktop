@@ -10,8 +10,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database'; 
 import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
@@ -58,11 +64,12 @@ export class OrderComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase    
+    
   ) {
     this.pointsToMoney = this.database
       .list("config/")
-      .valueChanges()
       .subscribe(snapshots => {
         var value: any;
         value = snapshots;
@@ -96,10 +103,13 @@ export class OrderComponent implements OnInit {
       }
       //Get promotions
       this.promotions = [];
-      const promotionsQuery = this.database
-        .list("promotions", ref => ref.orderByChild("type").equalTo("promo"))
-        .valueChanges()
-        .subscribe(snapshots => {
+      const promotionsQuery = this.afoDatabase
+        .list("promotions", {
+          query:{
+            orderByChild:"type",
+            equalTo:"promo"
+          }
+        }).subscribe(snapshots => {
           var promo: any;
           promo = snapshots;
           console.log("Promo:" + JSON.stringify(promo));
@@ -111,22 +121,27 @@ export class OrderComponent implements OnInit {
   }
 
   getUserData() {
-    const user = this.database
-      .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch)
-      )
-      .snapshotChanges()
-      .subscribe(snapshots => {
+    const user = this.afoDatabase
+      .list("users", {
+        query:{
+          orderByChild:"id",
+          equalTo:this.idSearch
+        }
+      }
+      ).subscribe(snapshots => {
         snapshots.forEach(action => {
-          console.log(action.key);
-          this.userDataUID = action.key;
+          console.log(action.$key);
+          this.userDataUID = action.$key;
         });
       });
-    const userPoints = this.database
-      .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch)
+    const userPoints = this.afoDatabase
+      .list("users", {
+        query:{
+          orderByChild:"id",
+          equalTo:this.idSearch
+        }
+      }
       )
-      .valueChanges()
       .subscribe(snapshots => {
         var user: any;
         user = snapshots;
@@ -256,7 +271,7 @@ export class OrderComponent implements OnInit {
       confirmButtonText: 'Si!',
       cancelButtonText: 'No, volver',
     }).then( _ => {
-    const userToUpdate = this.database.list("users/");
+    const userToUpdate = this.afoDatabase.list("users/");
     userToUpdate.update(this.userDataUID, { points: this.pointsTotal });
     localStorage.removeItem("currentOrder");
     swal({
@@ -289,11 +304,13 @@ export class OrderComponent implements OnInit {
       var minPurchase: any;
       this.getOrderTotal();
       this.discountButton = "Aplicar Descuento";
-      const coupon = this.database
-        .list("promotions", ref =>
-          ref.orderByChild("code").equalTo(this.couponCode.toString())
-        )
-        .valueChanges()
+      const coupon = this.afoDatabase
+        .list("promotions", {
+          query:{
+            orderByChild:"code",
+            equalTo: this.couponCode.toString()
+          }
+          })
         .subscribe(snapshots => {
           var promo: any;
           promo = snapshots;
@@ -328,11 +345,14 @@ export class OrderComponent implements OnInit {
       //Discount Promotion
       console.log(this.promotionSelected);
       this.getOrderTotal();
-      const coupon = this.database
-        .list("promotions", ref =>
-          ref.orderByChild("name").equalTo(this.promotionSelected)
+      const coupon = this.afoDatabase
+        .list("promotions",{
+          query:{
+            orderByChild:"name",
+            equalTo:this.promotionSelected
+          }
+        }
         )
-        .valueChanges()
         .subscribe(snapshots => {
           var promo: any;
           var dateStart: any;
@@ -543,10 +563,10 @@ export class OrderComponent implements OnInit {
     } else {
       if (this.orderType) {
         this.pointsTotal = this.pointsCount + this.points;
-        promise = this.database
+        promise = this.afoDatabase
           .list("orders")
           .push({
-            created: firebase.database.ServerValue.TIMESTAMP,
+            created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
             points: this.pointsCount,
             products: this.productList,
             total: this.orderTotal,
@@ -558,10 +578,10 @@ export class OrderComponent implements OnInit {
           totalValue = (this.pointsCount - this.points) * this.pointsToMoney;
           this.discount+=this.points* this.pointsToMoney;        
           this.pointsTotal = 0;
-          promise = this.database
+          promise = this.afoDatabase
             .list("orders")
             .push({
-              created: firebase.database.ServerValue.TIMESTAMP,
+              created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
               points: this.pointsCount,
               products: this.productList,
               total: totalValue,
@@ -574,7 +594,7 @@ export class OrderComponent implements OnInit {
           promise = this.database
             .list("orders")
             .push({
-              created: firebase.database.ServerValue.TIMESTAMP,
+              created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
               points: this.pointsCount,
               products: this.productList,
               total: 0,

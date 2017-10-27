@@ -8,8 +8,15 @@ import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import * as moment from "moment";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
+
 
 @Component({
   selector: "app-reports",
@@ -26,7 +33,7 @@ export class ReportsComponent implements OnInit {
   cantList: any = [];
   greater: any = 0;
   greaterIndex: any = 0;
-  less: any = 100;
+  less: any = 1000000;
   lessIndex: any = 0;
   productSoldOut: any = [];
   productNotSoldOut: any = [];
@@ -36,7 +43,8 @@ export class ReportsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                      
   ) {}
 
   ngOnInit() {
@@ -56,9 +64,8 @@ export class ReportsComponent implements OnInit {
     ];
     var d = new Date();
     this.month = monthNames[d.getMonth()];
-    this.items = this.database
+    this.items = this.afoDatabase
       .list("/orders")
-      .valueChanges()
       .subscribe(item => {
         var orders: any = item;
         orders.forEach((element, key) => {
@@ -84,9 +91,8 @@ export class ReportsComponent implements OnInit {
             this.lessIndex = key;
           }
         });
-        this.items = this.database
+        this.items = this.afoDatabase
           .object("/products/" + this.productsList[this.greaterIndex])
-          .valueChanges()
           .subscribe(item => {
             var product: any = item;
             this.productSoldOut = {
@@ -97,9 +103,8 @@ export class ReportsComponent implements OnInit {
               image: product.image
             };
           });
-        this.items = this.database
+        this.items = this.afoDatabase
           .object("/products/" + this.productsList[this.lessIndex])
-          .valueChanges()
           .subscribe(item => {
             var product: any = item;
             this.productNotSoldOut = {
@@ -111,9 +116,8 @@ export class ReportsComponent implements OnInit {
             };
           });
       });
-    this.orders = this.database
+    this.orders = this.afoDatabase
       .list("/orders")
-      .valueChanges()
       .subscribe(value => {
         var order: any = value;
         var userType: any;
@@ -125,11 +129,12 @@ export class ReportsComponent implements OnInit {
             this.itemsList.push(element.products);
             userType = "Usuario registrado";
             console.log(element.user);
-            this.database
-              .list("/users", ref =>
-                ref.orderByChild("id").equalTo(element.user)
+            this.afoDatabase
+              .list("/users", {query:{
+                orderByChild:"id",
+                equalTo:element.id
+              }}
               )
-              .valueChanges()
               .subscribe(value => {
                 console.log(value);
                 var info: any = value;
@@ -137,7 +142,7 @@ export class ReportsComponent implements OnInit {
                 userId = info[0].id;
                 console.log(info[0].name);
                 this.orderList.push({
-                  created: moment(element.created).format("DD/MM/YYYY h:mm:ss"),
+                  created: element.created,
                   type: userType,
                   name: userName,
                   id: userId,

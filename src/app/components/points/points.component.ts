@@ -8,11 +8,10 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import {
-  AngularFirestore,
-  AngularFirestoreCollection
-} from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database"; 
 import {
   AfoListObservable,
   AfoObjectObservable,
@@ -69,10 +68,13 @@ export class PointsComponent implements OnInit {
         this.gotPoints = true;
         this.found = true;
         this.pointProducts = this.database
-          .list("products", ref =>
-            ref.orderByChild("points").startAt(0).endAt(this.avaliablePoints)
-          )
-          .valueChanges();
+          .list("products", { 
+            query: { 
+              orderByChild: "points", 
+              startAt:0,
+              endAt: this.avaliablePoints 
+            } 
+          }); 
       });
     });
     setTimeout(re => {

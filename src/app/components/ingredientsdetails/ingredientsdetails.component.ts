@@ -13,10 +13,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
-import { AngularFirestore } from 'angularfire2/firestore';
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: "app-ingredientsdetails",
@@ -34,13 +38,14 @@ export class IngredientsdetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase          
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
-    this.ingredients = this.database
-    .object("ingredients/"+this.id+"/").valueChanges().subscribe(snapshots => {
+    this.ingredients = this.afoDatabase
+    .object("ingredients/"+this.id+"/").subscribe(snapshots => {
       var items:any=snapshots;
         this.name = items.name; 
         this.price = items.price;
@@ -49,8 +54,8 @@ export class IngredientsdetailsComponent implements OnInit {
   }
 
   saveIngredient() {
-    this.database
-    .list("ingredients/").set(this.id, {
+    this.afoDatabase
+    .list("ingredients/").update(this.id, {
       name: this.name,
       price: this.price,
       unit: this.selectedUnit      
@@ -60,7 +65,7 @@ export class IngredientsdetailsComponent implements OnInit {
 
   deleteIngredient() {
     console.log(this.id);
-    this.database
+    this.afoDatabase
     .list("ingredients/").remove(this.id);
     this.router.navigateByUrl("/ingredients");
   }

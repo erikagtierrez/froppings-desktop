@@ -10,8 +10,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFireDatabase } from "angularfire2/database";
-import { AngularFirestore } from "angularfire2/firestore";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: "app-newfeatured",
@@ -34,13 +40,24 @@ export class NewfeaturedComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase        
   ) {}
 
   ngOnInit() {
-    this.products = this.database.list("/products").valueChanges();
-    this.promotions = this.database.list("/promotions", ref=> ref.orderByChild("type").equalTo("promo")).valueChanges();
-    this.coupons = this.database.list("/promotions", ref=> ref.orderByChild("type").equalTo("coupon")).valueChanges();
+    this.products = this.afoDatabase.list("/products");
+    this.promotions = this.afoDatabase.list("/promotions", {
+      query:{
+        orderByChild:"type",
+        equalTo:"promo"
+      }
+    });
+    this.coupons = this.afoDatabase.list("/promotions", {
+      query:{
+        orderByChild:"type",
+        equalTo:"coupon"
+      }
+    });
   }
 
   handleFileSelect(evt) {
@@ -63,14 +80,14 @@ export class NewfeaturedComponent implements OnInit {
 
   savePost() {
     if (this.promoType == "image") {
-      this.database.list("/featured").push({
+      this.afoDatabase.list("/featured").push({
         type: "image",
         image: this.image,
         name: this.messageImagePost
       });
       this.router.navigateByUrl("/featured");
     } else if (this.promoType == "message") {
-      this.database.list("/featured").push({
+      this.afoDatabase.list("/featured").push({
         type: "message",
         name: this.messageTitle,
         description: this.messageDescription
@@ -79,15 +96,18 @@ export class NewfeaturedComponent implements OnInit {
     } else if (this.promoType == "product") {
       console.log(this.selectedProduct);
       if (this.selectedProduct) {
-        this.database
-          .list("/products", ref =>
-            ref.orderByChild("name").equalTo(this.selectedProduct)
+        this.afoDatabase
+          .list("/products", {
+            query:{
+              orderByChild:"name",
+              equalTo:this.selectedProduct
+            }
+          }
           )
-          .valueChanges()
           .subscribe(result => {
             var product: any = result;
             product.forEach(element => {
-              this.database.list("/featured").push({
+              this.afoDatabase.list("/featured").push({
                 type: "product",
                 name: element.name,
                 description: element.description,
@@ -101,15 +121,18 @@ export class NewfeaturedComponent implements OnInit {
       }
     } else if (this.promoType == "promo") {
       if (this.selectedPromotion) {
-        this.database
-          .list("/promotions", ref =>
-            ref.orderByChild("name").equalTo(this.selectedPromotion)
+        this.afoDatabase
+          .list("/promotions", {
+            query:{
+              orderByChild:"name",
+              equalTo:this.selectedPromotion
+            }
+          }
           )
-          .valueChanges()
           .subscribe(result => {
             var promo: any = result;
             promo.forEach(element => {
-              this.database.list("/featured").push({
+              this.afoDatabase.list("/featured").push({
                 type: "promo",
                 name: element.name,
                 dateEnd: element.dateEnd,
@@ -123,15 +146,18 @@ export class NewfeaturedComponent implements OnInit {
       }
     }else if(this.promoType=='coupon'){
       if(this.selectedCoupon){
-        this.database
-        .list("/promotions", ref =>
-          ref.orderByChild("code").equalTo(this.selectedCoupon)
+        this.afoDatabase
+        .list("/promotions", {
+          query:{
+            orderByChild:"name",
+            equalTo:this.selectedCoupon
+          }
+        }
         )
-        .valueChanges()
         .subscribe(result => {
           var promo: any = result;
           promo.forEach(element => {
-            this.database.list("/featured").push({
+            this.afoDatabase.list("/featured").push({
               type: "coupon",
               code: element.code,
               dateEnd: element.dateEnd,

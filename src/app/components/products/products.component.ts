@@ -10,10 +10,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
-import { AngularFirestore } from 'angularfire2/firestore';
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: 'app-products',
@@ -28,11 +32,10 @@ export class ProductsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase  
   ) { 
-    this.items = database.list('/products').snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-   });
+    this.items = afoDatabase.list('/products');
   }
 
   ngOnInit() {

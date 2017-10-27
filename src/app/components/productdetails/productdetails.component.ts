@@ -14,8 +14,15 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
+
 
 @Component({
   selector: "app-productdetails",
@@ -29,7 +36,7 @@ export class ProductdetailsComponent implements OnInit {
   private ingredientsQuery: any;
   private ingredientsList: Array<string> = [];
   private recipe: Observable<any[]>;
-  private recipeRef: AngularFireList<any>;
+  private recipeRef: any;
   private sub: any;
   private id: string;
   private oldIngredient: any;
@@ -48,7 +55,8 @@ export class ProductdetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase  
   ) {}
 
   getAvailableIngredients() {
@@ -56,9 +64,8 @@ export class ProductdetailsComponent implements OnInit {
     this.quantity=0;
     this.ingredients = [];
     this.ingredientsList = [];
-    this.database
+    this.afoDatabase
       .list("/recipe/" + this.id)
-      .valueChanges()
       .subscribe(snapshots => {
         var items: any;
         var numberItems: any = [];
@@ -67,9 +74,8 @@ export class ProductdetailsComponent implements OnInit {
           this.ingredientsList.push(snapshots.name);
           numberItems.push(snapshots.quantity);
         });
-        this.ingredientsQuery = this.database
+        this.ingredientsQuery = this.afoDatabase
           .list("/ingredients")
-          .valueChanges()
           .subscribe(snapshot => {
             var item: any;
             item = snapshot;
@@ -88,9 +94,8 @@ export class ProductdetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.database
+    this.afoDatabase
     .list("config/")
-    .valueChanges()
     .subscribe(snapshots => {
       var value: any;
       value = snapshots;
@@ -100,9 +105,13 @@ export class ProductdetailsComponent implements OnInit {
       });
     });
     this.id = this.route.snapshot.params["id"];
-    this.product = this.database
-      .list("/products", ref => ref.orderByChild("code").equalTo(this.id))
-      .valueChanges();
+    this.product = this.afoDatabase
+      .list("/products", {
+        query:{
+          orderByChild:"code",
+          equalTo:this.id
+        }
+      });
     this.product.subscribe(snapshots => {
       var items: any;
       items = snapshots;
@@ -115,13 +124,10 @@ export class ProductdetailsComponent implements OnInit {
         this.price = snapshots.price;
       });
     });
-    this.recipeRef = this.database.list("/recipe/" + this.id);
-    this.recipe = this.recipeRef.snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
-    this.database
+    this.recipeRef = this.afoDatabase.list("/recipe/" + this.id);
+    this.recipe = this.recipeRef;
+    this.afoDatabase
       .list("/recipe/" + this.id)
-      .valueChanges()
       .subscribe(snapshots => {
         if (!this.happened) {
           this.oldIngredient = snapshots;
@@ -132,7 +138,7 @@ export class ProductdetailsComponent implements OnInit {
   }
 
   addIngredient(ingredient) {
-    this.database.list("/recipe/" + this.id).push({
+    this.afoDatabase.list("/recipe/" + this.id).push({
       name: ingredient,
       quantity: this.quantity
     });
@@ -163,7 +169,7 @@ export class ProductdetailsComponent implements OnInit {
       cant => {
         console.log(this.id);
         console.log(ingredient);
-        this.database.list("/recipe/" + this.id).set(ingredient.key, {
+        this.afoDatabase.list("/recipe/" + this.id).update(ingredient.$key, {
           name: ingredient.name,
           quantity: cant
         });
@@ -201,7 +207,7 @@ export class ProductdetailsComponent implements OnInit {
   }
 
   deleteProduct(key){
-    this.database.list("products").remove(this.id);
+    this.afoDatabase.list("products").remove(this.id);
     this.router.navigateByUrl("/products");    
   }
 
@@ -213,8 +219,8 @@ export class ProductdetailsComponent implements OnInit {
         some.push(element);
       });
       console.log(this.oldIngredient);
-      this.database.list("/recipe/" + this.id).remove();
-      this.database.list("/recipe/").push(some);
+      this.afoDatabase.list("/recipe/" + this.id).remove();
+      this.afoDatabase.list("/recipe/").push(some);
       this.router.navigateByUrl("/products");
     } else {
       this.router.navigateByUrl("/products");
@@ -232,14 +238,14 @@ export class ProductdetailsComponent implements OnInit {
       confirmButtonText: "Si!",
       cancelButtonText: "No, volver"
     }).then(_ => {
-      this.product = this.database.list("/products").set(this.id, {
+      this.product = this.afoDatabase.list("/products").update(this.id, {
         code: product.code,
         description: this.description,
         image: this.image,
         name: this.name,
-        points: ((this.price/this.pointsToMoney).toFixed(0)),
-        price: this.price.toFixed(0),
-        type: this.category.toFixed(0)
+        points: ((this.price/this.pointsToMoney).toFixed(2)),
+        price: this.price,
+        type: this.category
       });
       this.router.navigateByUrl("/products");
     });

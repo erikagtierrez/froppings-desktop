@@ -8,10 +8,14 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
-import { AngularFirestore } from 'angularfire2/firestore';
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: "app-authentication",
@@ -33,7 +37,8 @@ export class AuthenticationComponent implements OnInit {
     private router: Router,
     private userService: UsersService,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                      
   ) {
     this.user = fireAuth.authState;
     this.isRegistration = false;
@@ -53,9 +58,13 @@ export class AuthenticationComponent implements OnInit {
     this.fireAuth.auth
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then(success => {
-        var newUser = this.database
-          .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
-          .valueChanges()
+        var newUser = this.afoDatabase
+          .list("users", {
+            query:{
+              orderByChild:"email",
+              equalTo:this.fireAuth.auth.currentUser.email
+            }
+          })
           .subscribe(snapshots => {
             snapshots.forEach((snapshots,id) => {
               if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
@@ -91,9 +100,13 @@ export class AuthenticationComponent implements OnInit {
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
-        var newUser = this.database
-        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
-        .valueChanges()
+        var newUser = this.afoDatabase
+        .list("users", {
+          query:{
+            orderByChild:"email",
+            equalTo:this.fireAuth.auth.currentUser.email
+          }
+        })
         .subscribe(snapshots => {
           snapshots.forEach((snapshots,id) => {
             if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
@@ -126,9 +139,13 @@ export class AuthenticationComponent implements OnInit {
     this.fireAuth.auth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(success => {
-        var newUser = this.database
-        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
-        .valueChanges()
+        var newUser = this.afoDatabase
+        .list("users", {
+          query:{
+            orderByChild:"email",
+            equalTo:this.fireAuth.auth.currentUser.email
+          }
+        })
         .subscribe(snapshots => {
           snapshots.forEach((snapshots,id) => {
             if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
@@ -163,9 +180,13 @@ export class AuthenticationComponent implements OnInit {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
-        var newUser = this.database
-        .list("users", ref=> ref.child("email").equalTo(this.fireAuth.auth.currentUser.email))
-        .valueChanges()
+        var newUser = this.afoDatabase
+        .list("users", {
+          query:{
+            orderByChild:"email",
+            equalTo:this.fireAuth.auth.currentUser.email
+          }
+        })
         .subscribe(snapshots => {
           snapshots.forEach((snapshots,id) => {
             if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
@@ -225,7 +246,7 @@ export class AuthenticationComponent implements OnInit {
         type: "client"
       };
       console.log(JSON.stringify(authUserInfo));
-      this.database
+      this.afoDatabase
         .list("/users/")
         .push(authUserInfo)
         .then(success => {

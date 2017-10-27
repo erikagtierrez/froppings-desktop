@@ -10,10 +10,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from 'sweetalert2'
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
-import { AngularFirestore } from 'angularfire2/firestore';
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: 'app-featured',
@@ -27,11 +31,10 @@ export class FeaturedComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase            
   ) { 
-    this.items = database.list("/featured").snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
+    this.items = afoDatabase.list("/featured");
   }
 
   deleteFeatured(key){
@@ -45,7 +48,7 @@ export class FeaturedComponent implements OnInit {
       confirmButtonText: 'Si!',
       cancelButtonText: 'No, volver',
     }).then( result=> {
-     this.database.list("/featured").remove(key);
+     this.afoDatabase.list("/featured").remove(key);
     }, err=> {
     })
   }

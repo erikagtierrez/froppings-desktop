@@ -13,10 +13,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
-import { AngularFirestore } from 'angularfire2/firestore';
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: "app-recipedetails",
@@ -42,15 +46,16 @@ export class RecipedetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                  
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
     console.log("ID" + this.id);
-    this.product = this.database.list("/products");
+    this.product = this.afoDatabase.list("/products");
     console.log("PRO"+this.product);
-    this.recipe = this.database.list("/recipe/" + this.id);
+    this.recipe = this.afoDatabase.list("/recipe/" + this.id);
     this.getAvailableIngredients();
   }
 
@@ -62,8 +67,8 @@ export class RecipedetailsComponent implements OnInit {
         this.ingredientsList.push(snapshots.name);
       });
     });
-    this.ingredientsQuery = this.database
-      .list("/ingredients").valueChanges()
+    this.ingredientsQuery = this.afoDatabase
+      .list("/ingredients")
       .subscribe(snapshots => {
         snapshots.forEach((snapshots,key) => {
           if (this.ingredientsList.indexOf(snapshots[key].name) == -1) {

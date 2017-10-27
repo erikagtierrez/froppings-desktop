@@ -11,8 +11,14 @@ import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import { Location } from "@angular/common";
 import swal from "sweetalert2";
-import { AngularFireDatabase } from "angularfire2/database";
-import { AngularFirestore } from "angularfire2/firestore";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: "app-productspopup",
@@ -27,9 +33,10 @@ export class ProductspopupComponent implements OnInit {
     private router: Router,
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase,
-    private location: Location
+    private location: Location,
+    public afoDatabase: AngularFireOfflineDatabase        
   ) {
-    this.products = database.list("/products").valueChanges();
+    this.products = afoDatabase.list("/products");
     this.orderProducts = JSON.parse(localStorage.getItem("currentOrder"));
   }
 

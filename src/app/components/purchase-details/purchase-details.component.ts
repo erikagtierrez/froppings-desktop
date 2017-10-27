@@ -12,8 +12,14 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase, AngularFireList } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import * as moment from "moment";
 
 @Component({
@@ -38,14 +44,14 @@ export class PurchaseDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                                  
   ) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];    
-    this.database
+    this.afoDatabase
       .list("config/")
-      .valueChanges()
       .subscribe(snapshots => {
         var value: any;
         value = snapshots;
@@ -55,9 +61,8 @@ export class PurchaseDetailsComponent implements OnInit {
           this.iva = action.iva;
         });
       });
-    this.database
+    this.afoDatabase
       .list("/ingredients")
-      .valueChanges()
       .subscribe(snapshots => {
         var items: any = snapshots;
         items.forEach(snapshots => {
@@ -65,13 +70,13 @@ export class PurchaseDetailsComponent implements OnInit {
           this.ingredients.push(snapshots.name);
         });
       });
-    this.database
+    this.afoDatabase
       .object("purchases/"+this.id)
-      .valueChanges()
       .subscribe(snapshots => {
         var items:any=snapshots;
           console.log(items)
           this.name=items.seller;
+          this.purchaseTotal=items.total;
           this.products=items.products;
       });
   }
@@ -91,9 +96,8 @@ export class PurchaseDetailsComponent implements OnInit {
 
   getAvailableIngredients() {
     this.ingredients = [];
-    this.database
+    this.afoDatabase
       .list("/ingredients")
-      .valueChanges()
       .subscribe(snapshot => {
         var item: any;
         item = snapshot;
@@ -109,9 +113,8 @@ export class PurchaseDetailsComponent implements OnInit {
   addIngredient(ingredient) {
     console.log("hola");
     this.ingredients.push(ingredient);
-    this.database
+    this.afoDatabase
       .list("/ingredients")
-      .valueChanges()
       .subscribe(snapshot => {
         var item: any;
         item = snapshot;
@@ -204,7 +207,7 @@ export class PurchaseDetailsComponent implements OnInit {
   }
 
   deletePurchase(){
-    this.database.list("/purchases/"+this.id).remove();
+    this.afoDatabase.list("/purchases/"+this.id).remove();
     this.router.navigateByUrl("/purchases");        
   }
 
@@ -220,7 +223,7 @@ export class PurchaseDetailsComponent implements OnInit {
         confirmButtonText: "Si!",
         cancelButtonText: "No, volver"
       }).then(_ => {
-        this.database.list("/purchases").update(this.id,{
+        this.afoDatabase.list("/purchases").update(this.id,{
           seller: this.name,
           total:this.purchaseTotal,
           products:this.products

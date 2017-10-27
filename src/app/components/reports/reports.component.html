@@ -64,7 +64,7 @@
           <th>Total</th>
         </thead>
         <tbody>
-          <tr *ngFor="let rec of orderList | filter:rules; let i=index;">
+          <tr *ngFor="let i=index; let rec of orderList | filter:rules">
             <td>{{rec.created}}</td>
             <td>{{rec.type}}</td>
             <td>{{rec.name}}</td>

@@ -7,8 +7,14 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFireDatabase } from "angularfire2/database";
-import { AngularFirestore } from "angularfire2/firestore";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 @Component({
   selector: "app-purchases",
   templateUrl: "./purchases.component.html",
@@ -21,14 +27,11 @@ export class PurchasesComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                          
   ) {
-    this.purchases = database
-      .list("/purchases")
-      .snapshotChanges()
-      .map(changes => {
-        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-      });
+    this.purchases = afoDatabase
+      .list("/purchases");
   }
 
   ngOnInit() {}

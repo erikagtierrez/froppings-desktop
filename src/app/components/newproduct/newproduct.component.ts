@@ -13,10 +13,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
-import { AngularFirestore } from 'angularfire2/firestore';
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database'; 
 
 @Component({
   selector: "app-newproduct",
@@ -44,13 +48,13 @@ export class NewproductComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase    
   ) {}
 
   ngOnInit() {
-    this.database
+    this.afoDatabase
     .list("config/")
-    .valueChanges()
     .subscribe(snapshots => {
       var value: any;
       value = snapshots;
@@ -59,13 +63,13 @@ export class NewproductComponent implements OnInit {
         this.pointsToMoney = action.pointsToMoney;
       });
     });
-    this.key = this.database.list("/products").push({
+    this.key = this.afoDatabase.list("/products").push({
       image:
         "~/assets/productodefault.png"
-    }).key;
+    }).$key;
     console.log(this.key);
-    this.database
-      .list("/ingredients").valueChanges()
+    this.afoDatabase
+      .list("/ingredients")
       .subscribe(snapshots => {
         var items:any=snapshots;
         items.forEach(snapshots => {
@@ -79,7 +83,7 @@ export class NewproductComponent implements OnInit {
     this.category=0;
     this.ingredients = [];
     this.ingredientsList = [];
-    this.database.list("/recipe/" + this.key).valueChanges().subscribe(snapshots => {
+    this.afoDatabase.list("/recipe/" + this.key).subscribe(snapshots => {
       var items: any;
       var numberItems: any = [];
       items = snapshots;
@@ -87,7 +91,7 @@ export class NewproductComponent implements OnInit {
         this.ingredientsList.push(snapshots.name);
         numberItems.push(snapshots.quantity);
       });
-      this.database.list("/ingredients").valueChanges().subscribe(snapshot => {
+      this.afoDatabase.list("/ingredients").subscribe(snapshot => {
         var item: any;
         item = snapshot;
         var key = 0;
@@ -105,13 +109,11 @@ export class NewproductComponent implements OnInit {
   }
 
   addIngredient(ingredient) {
-    this.database.list("/recipe/" + this.key).push({
+    this.afoDatabase.list("/recipe/" + this.key).push({
       name: ingredient,
       quantity: this.quantity
     });
-    this.recipe=this.database.list("/recipe/" + this.key).snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });
+    this.recipe=this.afoDatabase.list("/recipe/" + this.key);
     this.getAvailableIngredients();
     this.quantity = null;
   }
@@ -137,7 +139,7 @@ export class NewproductComponent implements OnInit {
           })
         }
     }).then((cant)=> {    
-      this.database.list("/recipe/" + this.key).set(key,{
+      this.afoDatabase.list("/recipe/" + this.key).update(key,{
         name: ingredient.name,
         quantity: cant
       })
@@ -168,19 +170,19 @@ _handleReaderLoaded(readerEvt) {
   }
 
   deleteIngredientElement(product,key){
-    this.database.list("/recipe/" + this.key).remove(key);
+    this.afoDatabase.list("/recipe/" + this.key).remove(key);
     this.getAvailableIngredients();    
   }
 
   revertChanges(){
-    this.database.list("/products/"+this.key).remove();
-    this.database.list("/recipe/"+this.key).remove();
+    this.afoDatabase.list("/products/"+this.key).remove();
+    this.afoDatabase.list("/recipe/"+this.key).remove();
     this.router.navigateByUrl("/products");    
   }
 
   ngOnDestroy(){
     if(!this.saved){
-    this.database.list("/products/"+this.key).remove(); 
+    this.afoDatabase.list("/products/"+this.key).remove(); 
     }   
   }
 
@@ -196,14 +198,14 @@ _handleReaderLoaded(readerEvt) {
       cancelButtonText: "No, volver"
     }).then(_ => {
     this.saved=true;
-    this.database.list("/products").update(this.key,{
+    this.afoDatabase.list("/products").update(this.key,{
         "code":this.key,
         "description":this.description,
         "image":this.image,
         "name":this.name,
         "points":new Number(((this.price/this.pointsToMoney).toFixed(2))),
-        "price":this.price.toFixed(0),
-        "type":this.category.toFixed(0)
+        "price":this.price,
+        "type":this.category
     });
     this.router.navigateByUrl("/products");  
   });    

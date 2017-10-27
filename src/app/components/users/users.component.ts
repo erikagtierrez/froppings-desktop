@@ -7,8 +7,15 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
+
 import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
@@ -25,11 +32,10 @@ export class UsersComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                  
   ) { 
-    this.users = database.list("/users").snapshotChanges().map(changes => {
-      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
-    });;
+    this.users = afoDatabase.list("/users");
   }
 
   ngOnInit() {
@@ -48,7 +54,7 @@ export class UsersComponent implements OnInit {
       cancelButtonText: 'No, volver',
     }).then( _ => {
       console.log(key);
-      this.database.list("/users").remove(key);
+      this.afoDatabase.list("/users").remove(key);
     });
   }
 

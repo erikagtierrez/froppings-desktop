@@ -13,10 +13,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import {
-  AngularFireDatabase
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
 } from "angularfire2/database";
-import { AngularFirestore } from 'angularfire2/firestore';
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 
 @Component({
   selector: 'app-recipe',
@@ -31,12 +35,13 @@ export class RecipeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase              
   ) { }
 
   ngOnInit() {
-    this.recipes=this.database.list("/recipe");
-    this.product=this.database.list("/products");
+    this.recipes=this.afoDatabase.list("/recipe");
+    this.product=this.afoDatabase.list("/products");
     this.recipes.subscribe(snapshot=>{
       snapshot.forEach(snapshot=>{
       this.key.push(Object.keys(snapshot));

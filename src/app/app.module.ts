@@ -33,7 +33,6 @@ import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 import { CommonModule } from '@angular/common';  
 import { NgVirtualKeyboardModule }  from '@protacon/ng-virtual-keyboard';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { PurchasesComponent } from './components/purchases/purchases.component';
 import { PromotionsComponent } from './components/promotions/promotions.component';
 import { ReportsComponent } from './components/reports/reports.component';
@@ -102,7 +101,8 @@ export const firebaseConfig={
     CommonModule,
     ShowHidePasswordModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     AngularFireOfflineModule,
     MyDateRangePickerModule,
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features

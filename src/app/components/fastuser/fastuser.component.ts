@@ -10,8 +10,14 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
@@ -58,11 +64,11 @@ export class FastuserComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase        
   ) {
-    this.pointsToMoney = this.database
+    this.pointsToMoney = this.afoDatabase
       .list("config/")
-      .valueChanges()
       .subscribe(snapshots => {
         var value: any;
         value = snapshots;
@@ -96,9 +102,13 @@ export class FastuserComponent implements OnInit {
       }
       //Get promotions
       this.promotions = [];
-      const promotionsQuery = this.database
-        .list("promotions", ref => ref.orderByChild("type").equalTo("promo"))
-        .valueChanges()
+      const promotionsQuery = this.afoDatabase
+        .list("promotions", {
+          query:{
+            orderByChild:"type",
+            equalTo:"promo"
+          }
+        })
         .subscribe(snapshots => {
           var promo: any;
           promo = snapshots;
@@ -111,22 +121,28 @@ export class FastuserComponent implements OnInit {
   }
 
   getUserData() {
-    const user = this.database
-      .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch)
+    const user = this.afoDatabase
+      .list("users", {
+        query:{
+          orderByChild:"id",
+          equalTo:this.idSearch
+        }
+      }
       )
-      .snapshotChanges()
       .subscribe(snapshots => {
         snapshots.forEach(action => {
-          console.log(action.key);
-          this.userDataUID = action.key;
+          console.log(action.$key);
+          this.userDataUID = action.$key;
         });
       });
-    const userPoints = this.database
-      .list("users", ref =>
-        ref.orderByChild("id").equalTo(this.idSearch)
+    const userPoints = this.afoDatabase
+      .list("users", {
+        query:{
+          orderByChild:"id",
+          equalTo:this.idSearch
+        }
+      }
       )
-      .valueChanges()
       .subscribe(snapshots => {
         var user: any;
         user = snapshots;
@@ -246,7 +262,7 @@ export class FastuserComponent implements OnInit {
   }
 
   savePayment() {
-    const userToUpdate = this.database.list("users/");
+    const userToUpdate = this.afoDatabase.list("users/");
     userToUpdate.update(this.userDataUID, { points: this.pointsTotal });
     localStorage.removeItem("currentOrder");
     swal({
@@ -278,11 +294,14 @@ export class FastuserComponent implements OnInit {
       var minPurchase: any;
       this.getOrderTotal();
       this.discountButton = "Aplicar Descuento";
-      const coupon = this.database
-        .list("promotions", ref =>
-          ref.orderByChild("code").equalTo(this.couponCode.toString())
+      const coupon = this.afoDatabase
+        .list("promotions",{
+          query:{
+            orderByChild:"code",
+            equalTo:this.couponCode.toString()
+          }
+        }
         )
-        .valueChanges()
         .subscribe(snapshots => {
           var promo: any;
           promo = snapshots;
@@ -317,11 +336,14 @@ export class FastuserComponent implements OnInit {
       //Discount Promotion
       console.log(this.promotionSelected);
       this.getOrderTotal();
-      const coupon = this.database
-        .list("promotions", ref =>
-          ref.orderByChild("name").equalTo(this.promotionSelected)
+      const coupon = this.afoDatabase
+        .list("promotions", {
+          query:{
+            orderByChild:name,
+            equalTo:this.promotionSelected
+          }
+        }
         )
-        .valueChanges()
         .subscribe(snapshots => {
           var promo: any;
           var dateStart: any;
@@ -519,10 +541,10 @@ export class FastuserComponent implements OnInit {
     var totalValue;
     var promise: any;
     this.pointsTotal = this.pointsCount + this.points;
-    promise = this.database
+    promise = this.afoDatabase
       .list("orders")
       .push({
-        created: firebase.database.ServerValue.TIMESTAMP,
+        created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
         products: this.productList,
         total: this.orderTotal,
         name: this.userName,

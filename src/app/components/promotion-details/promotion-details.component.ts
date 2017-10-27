@@ -6,10 +6,17 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
+import * as moment from "moment";
 import { IMyDrpOptions } from "mydaterangepicker";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import randomize from "randomatic";
 
 @Component({
@@ -45,15 +52,15 @@ export class PromotionDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                              
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params["id"];
     console.log(this.id);
-    this.database
+    this.afoDatabase
       .object("/promotions/"+this.id)
-      .valueChanges()
       .subscribe(snapshots => {
         var items:any=snapshots;
           console.log(items+"!")
@@ -89,9 +96,13 @@ export class PromotionDetailsComponent implements OnInit {
   genCode() {
     this.exist = null;
     var codex = randomize("Aa0", 4);
-    this.database
-      .list("/promotions", ref => ref.child("code").equalTo(codex))
-      .valueChanges()
+    this.afoDatabase
+      .list("/promotions", {
+        query:{
+          orderByChild:"code",
+          equalTo:codex
+        }
+      })
       .subscribe(result => (this.exist = true));
     if (this.exist == null) {
       this.code = codex;
@@ -101,7 +112,7 @@ export class PromotionDetailsComponent implements OnInit {
   }
 
   deletePromo() {
-    this.database.list("promotions").remove(this.id);
+    this.afoDatabase.list("promotions").remove(this.id);
     this.router.navigateByUrl("/promotions");   
   }
 
@@ -126,9 +137,9 @@ export class PromotionDetailsComponent implements OnInit {
         confirmButtonText: "Si!",
         cancelButtonText: "No, volver"
       }).then(_ => {
-        if (this.promoType) {
-          this.database.list("/promotions").set(this.id,{
-            created: firebase.database.ServerValue.TIMESTAMP,
+        if (this.promoType=="promo") {
+          this.afoDatabase.list("/promotions").update(this.id,{
+            created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
             name: this.name,
             dateStart:
               this.model.beginDate.day +
@@ -147,8 +158,8 @@ export class PromotionDetailsComponent implements OnInit {
             type: "promo"
           });
         } else {
-          this.database.list("/promotions").set(this.id,{
-            created: firebase.database.ServerValue.TIMESTAMP,
+          this.afoDatabase.list("/promotions").update(this.id,{
+            created:  moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
             code: this.code,
             dateStart:
               this.model.beginDate.day +

@@ -7,8 +7,14 @@ import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import * as moment from "moment";
 import * as pdfMake from "pdfmake/build/pdfmake.js";
 
@@ -29,7 +35,8 @@ export class NewUserComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                                              
   ) { }
 
   ngOnInit() {
@@ -51,7 +58,7 @@ export class NewUserComponent implements OnInit {
       cancelButtonText: "No, volver"
     }).then(_ => {
       console.log(this.userName+","+this.selectedPermission);
-      this.database.list("/users").push({
+      this.afoDatabase.list("/users").push({
         name: this.userName,
         lastname:this.userLastname,
         id:this.userId,

@@ -15,7 +15,7 @@
 </div>
 <div class="row">
   <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let item of items| async | filter:rules">
-    <div class="card promo" [routerLink]="['/promotiondetails',item.key]" *ngIf="item.type=='promo'">
+    <div class="card promo" [routerLink]="['/promotiondetails',item.$key]" *ngIf="item.type=='promo'">
       <div class="header">
         <h4 class="title text-white">{{item.name}}</h4>
         <p class="category text-white text-bold">Bs. {{item.discount}} OFF</p>
@@ -24,7 +24,7 @@
         <img class="img-producto" src={{item.image}} class="img-responsive ">
       </div>
     </div>
-    <div class="card promo" [routerLink]="['/promotiondetails',item.key]" *ngIf="item.type=='coupon'">
+    <div class="card promo" [routerLink]="['/promotiondetails',item.$key]" *ngIf="item.type=='coupon'">
       <div class="header">
         <h4 class="title text-white">Código: {{item.code}}</h4>
         <p class="category text-white text-bold">{{item.discount}}% OFF</p>

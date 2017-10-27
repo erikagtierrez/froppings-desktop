@@ -8,8 +8,15 @@ import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import { IMyDrpOptions } from "mydaterangepicker";
 import swal from "sweetalert2";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireDatabase } from "angularfire2/database";
+import * as moment from "moment";
+import { 
+  FirebaseListObservable, 
+  AngularFireDatabase 
+} from "angularfire2/database";
+import {
+  AfoListObservable,
+  AfoObjectObservable,
+  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
 import randomize from "randomatic";
 
 @Component({
@@ -65,7 +72,8 @@ export class NewPromotionComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
-    public database: AngularFireDatabase
+    public database: AngularFireDatabase,
+    public afoDatabase: AngularFireOfflineDatabase                                                          
   ) {}
 
   ngOnInit() {}
@@ -73,9 +81,13 @@ export class NewPromotionComponent implements OnInit {
   genCode() {
     this.exist = null;
     var codex = randomize("Aa0", 4);
-    this.database
-      .list("/promotions", ref => ref.child("code").equalTo(codex))
-      .valueChanges()
+    this.afoDatabase
+      .list("/promotions", {
+        query:{
+          orderByChild:"code",
+          equalTo:codex
+        }
+      })
       .subscribe(result => (this.exist = true));
     if (this.exist == null) {
       this.code = codex;
@@ -110,8 +122,8 @@ export class NewPromotionComponent implements OnInit {
       cancelButtonText: "No, volver"
     }).then(_ => {
       if (this.promoType) {
-        this.database.list("/promotions").push({
-          created: firebase.database.ServerValue.TIMESTAMP,
+        this.afoDatabase.list("/promotions").push({
+          created:moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
           name: this.name,
           dateStart: this.model.beginDate.day+"/"+this.model.beginDate.month+"/"+this.model.beginDate.year,
           dateEnd: this.model.endDate.day+"/"+this.model.endDate.month+"/"+this.model.endDate.year,
@@ -120,8 +132,8 @@ export class NewPromotionComponent implements OnInit {
           type: "promo"
         });
       } else {
-        this.database.list("/promotions").push({
-          created: firebase.database.ServerValue.TIMESTAMP,
+        this.afoDatabase.list("/promotions").push({
+          created: moment(new Date()).format("DD/MM/YYYY h:mm:ss"),
           code: this.code,
           dateStart: this.model2.beginDate.day+"/"+this.model2.beginDate.month+"/"+this.model2.beginDate.year,
           dateEnd: this.model2.endDate.day+"/"+this.model2.endDate.month+"/"+this.model2.endDate.year,
