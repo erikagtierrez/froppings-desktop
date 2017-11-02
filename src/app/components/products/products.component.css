@@ -16,3 +16,23 @@
     margin-bottom: 3%;
     box-shadow: 8px 8px 8px #DDDBDB;
 }
+
+
+.row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .row.display-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.img-pro{
+    max-height: 100px;
+}

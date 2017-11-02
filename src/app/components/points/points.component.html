@@ -32,13 +32,11 @@
             <h4 class="title">Opciones de canje</h4>
           </div>
           <div class="row" style="margin: 10px; padding-bottom:50px;">
-            <div class="col-xl-2 col-lg-2 col-md-3" *ngFor="let product of pointProducts | async">
+            <div class="col-lg-4 col-md-3" *ngFor="let product of pointProducts | async">
               <div class="card">
-                <div class="header text-center">
+                <div class="content sizetop">
                   <h4 class="title">{{product.name}}</h4>
-                  <p class="category">Bs. {{product.price}}</p>
-                  <p class="category text-danger">{{product.points}} puntos</p>
-                    <h5 class="title">{{product.description}}</h5>
+                  <p class="category">Bs. {{product.points}}</p>
                 </div>
               </div>
             </div>

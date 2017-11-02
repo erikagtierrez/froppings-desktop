@@ -47,6 +47,7 @@ import { UserdetailsComponent } from './components/userdetails/userdetails.compo
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { FeaturedComponent } from './components/featured/featured.component';
 import { NewfeaturedComponent } from './components/newfeatured/newfeatured.component';
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 
 export const firebaseConfig={
   apiKey: 'AIzaSyCW_RhruwT650FcUohbkBNvF25bjsLw8iY',
@@ -97,6 +98,7 @@ export const firebaseConfig={
     HttpModule,
     routing,
     Ng2SearchPipeModule,
+    Ng2FilterPipeModule,
     NgVirtualKeyboardModule,
     CommonModule,
     ShowHidePasswordModule.forRoot(),

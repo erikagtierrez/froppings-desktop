@@ -2,12 +2,12 @@
   <div class="row button-action">
     <div class="col-md-6">
       <div class="card">
-        <div class="row content">
-          <div class="col-md-7 header">
+        <div class="row">
+          <div class="col-md-7 header content">
             <h4 class="title">Producto más Vendido</h4>
             <p class="title text-danger">Mes de {{month}}</p>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5 content">
             <div class="card" [routerLink]="['/productdetails']">
               <div class="content">
                 <h4 class="title">{{productSoldOut.name}}</h4>
@@ -20,12 +20,12 @@
     </div>
     <div class="col-md-6">
       <div class="card">
-        <div class="row content">
-          <div class="col-md-7 header">
+        <div class="row ">
+          <div class="col-md-7 header content">
             <h4 class="title">Producto menos Vendido</h4>
             <p class="title text-danger">Mes de {{month}}</p>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5 content">
             <div class="card" [routerLink]="['/productdetails']">
               <div class="content">
                 <h4 class="title">{{productNotSoldOut.name}}</h4>
@@ -38,18 +38,19 @@
     </div>
   </div>
 </div>
-<div class="row button-action">
-    <div class="form-group col-md-4 col-md-offset-7">
-      <div class="input-group">
-        <input type="text" [(ngModel)]="rules" class="form-control" placeholder="Buscar...">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <i class="fa fa-search" aria-hidden="true" style="color:#810d43"></i>
-            </button>
-          </span>
-      </div>
+<div class="button-action">
+  <div class="form-group row">
+    <div class="col-md-3 col-md-offset-3">
+      <input type="text" [(ngModel)]="rules.created" class="form-control" placeholder="Buscar por fecha...">
     </div>
+    <div class="col-md-3">
+      <input type="text" [(ngModel)]="rules.id" class="form-control" placeholder="Buscar por cedula...">
+    </div>
+    <div class="col-md-3">
+        <input type="text" [(ngModel)]="rules.type" class="form-control" placeholder="Buscar por tipo...">
+      </div>
   </div>
+</div>
 <div class="row" *ngIf="reportType=='home'">
   <div class="card col-md-10 col-md-offset-1">
     <div class="content table-responsive table-full-width ">
@@ -64,7 +65,7 @@
           <th>Total</th>
         </thead>
         <tbody>
-          <tr *ngFor="let i=index; let rec of orderList | filter:rules">
+          <tr *ngFor="let i=index; let rec of orderList | filterBy:rules">
             <td>{{rec.created}}</td>
             <td>{{rec.type}}</td>
             <td>{{rec.name}}</td>

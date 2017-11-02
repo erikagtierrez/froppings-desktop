@@ -1,14 +1,14 @@
-<div class="col-md-8 col-md-offset-2 topSpace">
+<div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 topSpace">
   <div class="card">
     <div class="row">
-      <div class="col-md-3 inner-card">
+      <div class="col-md-5 col-lg-4 inner-card">
           <img class="img-producto" src={{image}} class="img-responsive "><br>
           <div class="buttonselect">
             <input type="file" accept="image/*"  (change)="handleFileSelect($event)" class="btn btn-primary btn-color" text="Seleccionar Imagen">
           </div>
       </div>
       <form #form="ngForm">
-      <div class="col-md-8  header">
+      <div class="col-md-6 col-lg-7 header">
         <div class="form-group">
           <label>Nombre</label>
           <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="name" name="name" value="" required>
@@ -59,7 +59,7 @@
               <th></th>
             </thead>
             <tbody>
-              <tr *ngFor="let rec of recipe | async">
+              <tr *ngFor="let rec of recipe">
                 <td>{{rec.name}}</td>
                 <td>{{rec.quantity}}</td>
                 <td><i class="fa fa-pencil" aria-hidden="true" style="color:#810d43;" (click)=modifyIngredientElement(rec,rec.$key)></i>                  &emsp;
@@ -69,10 +69,10 @@
           </table>
         </div>
         <div class="row">
-            <div class="col-md-2 col-md-offset-7">
+            <div class="col-md-3 col-md-offset-5">
                 <button type="submit" class="btn btn-info btn-fill pull-right" (click)="revertChanges()"  style="width: 100%;">Cancelar</button>
               </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <button class="btn btn-info btn-fill pull-right" [disabled]="!form.valid" (click)="saveProduct(productDetails)" style="width: 100%;">Agregar Producto</button>
           </div>
         </div>

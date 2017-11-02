@@ -1,5 +1,6 @@
 {
     "name": "froppings-desktop",
+    "productName": "Froppings",
     "version": "0.1.0",
     "main": "electron.js"
 }

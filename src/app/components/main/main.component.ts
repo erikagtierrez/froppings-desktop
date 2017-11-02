@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-main',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
-  constructor() { }
+  type:any="";
+  
+  constructor(
+    private router: Router,    
+  ) { }
 
   ngOnInit() {
+    this.type=localStorage.getItem("type");
+    if(this.type=="Mercadeo"){
+      this.router.navigateByUrl("/promotions");    
+    }
   }
 
 }

@@ -22,7 +22,7 @@
             </div>
           </form>
           <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12">
               <div class="card">
                 <div class="header">
                   <h4 class="title">Datos Factura Fiscal</h4>
@@ -30,11 +30,11 @@
                 <div class="content">
                   <form #form="ngForm" (ngSubmit)="addProducts()">
                     <div class="row">
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <input type="radio" class="radioB" name="orderType" [value]="true" [(ngModel)]="orderType">
                         <Label class="text-black"> Acumular Puntos</Label>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <input type="radio" class="radioB" name="orderType" [value]="false" [(ngModel)]="orderType">
                         <Label class="text-black"> Canjear Puntos</Label>
                       </div>
@@ -99,7 +99,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-3 col-md-offset-5">
+                      <div class="col-md-4 col-md-offset-4">
                         <a (click)="applyCoupon()" class="btn btn-primary btn-color" style="width: 100%;">{{discountButton}}</a>
                       </div>
                       <div class="col-md-4">
@@ -135,13 +135,13 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-md-3 col-md-offset-3">
+                      <div class="col-md-4">
                         <h4 class="title text-danger">Total Puntos: {{pointsCount}}</h4>
                       </div>
-                      <div class="col-md-3">
+                      <div class="col-md-5">
                         <h4 class="title">Total Bs: {{orderTotal}}</h4>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <button (click)="confirm()" class="btn btn-info btn-fill pull-right">Confirmar Compra</button>
                       </div>
                     </div>

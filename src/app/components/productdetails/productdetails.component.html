@@ -1,14 +1,14 @@
-<div class="col-md-8 col-md-offset-2 topSpace">
+<div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 topSpace">
   <div class="card" *ngFor="let productDetails of product | async">
     <div class="row">
-      <div class="col-md-4 inner-card">
+      <div class="col-md-5 col-lg-4 inner-card">
         <img class="img-producto" src={{image}} class="img-responsive ">
         <br>
         <div class="buttonselect">
-          <input type="file" accept="image/*" (change)="handleFileSelect($event)" class="btn btn-primary btn-color" text="Seleccionar Imagen">
+          <input type="file" accept="image/*" (change)="handleFileSelect($event)" class="btn btn-primary btn-color" text="Seleccionar">
         </div>
       </div>
-      <div class="col-md-7  header">
+      <div class="col-md-6 col-lg-7 header">
         <div class="form-group">
           <label>Nombre</label>
           <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="name" name="name" value="">

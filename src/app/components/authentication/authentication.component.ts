@@ -7,15 +7,16 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { Observable } from "rxjs/Rx";
 import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
-import swal from 'sweetalert2'
-import { 
-  FirebaseListObservable, 
-  AngularFireDatabase 
+import swal from "sweetalert2";
+import {
+  FirebaseListObservable,
+  AngularFireDatabase
 } from "angularfire2/database";
 import {
   AfoListObservable,
   AfoObjectObservable,
-  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
+  AngularFireOfflineDatabase
+} from "angularfire2-offline/database";
 
 @Component({
   selector: "app-authentication",
@@ -38,7 +39,7 @@ export class AuthenticationComponent implements OnInit {
     private userService: UsersService,
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase,
-    public afoDatabase: AngularFireOfflineDatabase                      
+    public afoDatabase: AngularFireOfflineDatabase
   ) {
     this.user = fireAuth.authState;
     this.isRegistration = false;
@@ -60,13 +61,13 @@ export class AuthenticationComponent implements OnInit {
       .then(success => {
         var newUser = this.afoDatabase
           .list("users", {
-            query:{
-              orderByChild:"email",
-              equalTo:this.fireAuth.auth.currentUser.email
+            query: {
+              orderByChild: "email",
+              equalTo: this.fireAuth.auth.currentUser.email
             }
           })
           .subscribe(snapshots => {
-            snapshots.forEach((snapshots,id) => {
+            snapshots.forEach((snapshots, id) => {
               if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
                 this.router.navigateByUrl("/dashboard");
                 exist = true;
@@ -74,10 +75,10 @@ export class AuthenticationComponent implements OnInit {
             });
             if (!exist) {
               swal({
-                title: 'Algo anda mal!',
-                text: 'El usuario ingresado no existe',
-                type: 'error',
-                confirmButtonText: 'Ok!'
+                title: "Algo anda mal!",
+                text: "El usuario ingresado no existe",
+                type: "error",
+                confirmButtonText: "Ok!"
               });
               //Alert  "Not registered"
             }
@@ -85,10 +86,10 @@ export class AuthenticationComponent implements OnInit {
       })
       .catch(err => {
         swal({
-          title: 'Algo anda mal!',
-          text: 'No se pudo realizar la autenticacion de Facebook',
-          type: 'error',
-          confirmButtonText: 'Ok!'
+          title: "Algo anda mal!",
+          text: "No se pudo realizar la autenticacion de Facebook",
+          type: "error",
+          confirmButtonText: "Ok!"
         });
       });
   }
@@ -101,27 +102,28 @@ export class AuthenticationComponent implements OnInit {
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
         var newUser = this.afoDatabase
-        .list("users", {
-          query:{
-            orderByChild:"email",
-            equalTo:this.fireAuth.auth.currentUser.email
-          }
-        })
-        .subscribe(snapshots => {
-          snapshots.forEach((snapshots,id) => {
-            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
-              this.router.navigateByUrl("/dashboard");
-              exist = true;
+          .list("users", {
+            query: {
+              orderByChild: "email",
+              equalTo: this.fireAuth.auth.currentUser.email
             }
+          })
+          .subscribe(snapshots => {
+            snapshots.forEach((snapshots, id) => {
+              if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+                this.router.navigateByUrl("/dashboard");
+                exist = true;
+              }
+            });
           });
-      })})
+      })
       .catch(function(error) {
         console.log(error);
         swal({
-          title: 'Algo anda mal!',
-          text: 'No se pudo realizar la autenticacion de Facebook',
-          type: 'error',
-          confirmButtonText: 'Ok!'
+          title: "Algo anda mal!",
+          text: "No se pudo realizar la autenticacion de Facebook",
+          type: "error",
+          confirmButtonText: "Ok!"
         });
       });
     if (!exist) {
@@ -140,35 +142,35 @@ export class AuthenticationComponent implements OnInit {
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(success => {
         var newUser = this.afoDatabase
-        .list("users", {
-          query:{
-            orderByChild:"email",
-            equalTo:this.fireAuth.auth.currentUser.email
-          }
-        })
-        .subscribe(snapshots => {
-          snapshots.forEach((snapshots,id) => {
-            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
-              this.router.navigateByUrl("/dashboard");
-              exist = true;
+          .list("users", {
+            query: {
+              orderByChild: "email",
+              equalTo: this.fireAuth.auth.currentUser.email
             }
-          });
+          })
+          .subscribe(snapshots => {
+            snapshots.forEach((snapshots, id) => {
+              if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+                this.router.navigateByUrl("/dashboard");
+                exist = true;
+              }
+            });
             if (!exist) {
               swal({
-                title: 'Algo anda mal!',
-                text: 'El usuario ingresado no existe',
-                type: 'error',
-                confirmButtonText: 'Ok!'
+                title: "Algo anda mal!",
+                text: "El usuario ingresado no existe",
+                type: "error",
+                confirmButtonText: "Ok!"
               });
             }
           });
       })
       .catch(err => {
         swal({
-          title: 'Algo anda mal!',
-          text: 'No se pudo realizar la autenticacion de Google',
-          type: 'error',
-          confirmButtonText: 'Ok!'
+          title: "Algo anda mal!",
+          text: "No se pudo realizar la autenticacion de Google",
+          type: "error",
+          confirmButtonText: "Ok!"
         });
       });
   }
@@ -181,26 +183,27 @@ export class AuthenticationComponent implements OnInit {
       .then(result => {
         console.log(this.fireAuth.auth.currentUser);
         var newUser = this.afoDatabase
-        .list("users", {
-          query:{
-            orderByChild:"email",
-            equalTo:this.fireAuth.auth.currentUser.email
-          }
-        })
-        .subscribe(snapshots => {
-          snapshots.forEach((snapshots,id) => {
-            if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
-              this.router.navigateByUrl("/dashboard");
-              exist = true;
+          .list("users", {
+            query: {
+              orderByChild: "email",
+              equalTo: this.fireAuth.auth.currentUser.email
             }
+          })
+          .subscribe(snapshots => {
+            snapshots.forEach((snapshots, id) => {
+              if (snapshots[id].email == this.fireAuth.auth.currentUser.email) {
+                this.router.navigateByUrl("/dashboard");
+                exist = true;
+              }
+            });
           });
-      })})
+      })
       .catch(function(error) {
         swal({
-          title: 'Algo anda mal!',
-          text: 'No se pudo realizar la autenticacion de Google',
-          type: 'error',
-          confirmButtonText: 'Ok!'
+          title: "Algo anda mal!",
+          text: "No se pudo realizar la autenticacion de Google",
+          type: "error",
+          confirmButtonText: "Ok!"
         });
         console.log(error);
       });
@@ -229,10 +232,10 @@ export class AuthenticationComponent implements OnInit {
           })
           .catch(err => {
             swal({
-              title: 'Algo anda mal!',
-              text: 'Hubo un error al crear tu cuenta de Froppings',
-              type: 'error',
-              confirmButtonText: 'Ok!'
+              title: "Algo anda mal!",
+              text: "Hubo un error al crear tu cuenta de Froppings",
+              type: "error",
+              confirmButtonText: "Ok!"
             });
           });
       }
@@ -243,23 +246,27 @@ export class AuthenticationComponent implements OnInit {
         lastname: form.value.lastnameRegister,
         name: form.value.nameRegister,
         points: 0,
-        type: "client"
+        type: "Cajero"
       };
       console.log(JSON.stringify(authUserInfo));
+      localStorage.setItem("type", "Cajero");
       this.afoDatabase
         .list("/users/")
         .push(authUserInfo)
-        .then(success => {
-          this.router.navigateByUrl("/dashboard");
-        },err => {
-          swal({
-            title: 'Algo anda mal!',
-            text: 'Intentalo de nuevo',
-            type: 'error',
-            confirmButtonText: 'Ok!'
-          });
-          console.log(err);
-        });
+        .then(
+          success => {
+            this.router.navigateByUrl("/dashboard");
+          },
+          err => {
+            swal({
+              title: "Algo anda mal!",
+              text: "Intentalo de nuevo",
+              type: "error",
+              confirmButtonText: "Ok!"
+            });
+            console.log(err);
+          }
+        );
     }
   }
 
@@ -273,50 +280,71 @@ export class AuthenticationComponent implements OnInit {
         )
         .then(success => {
           console.log(success);
-          this.router.navigateByUrl("/dashboard");
+          this.afoDatabase
+            .list("/users", {
+              query: {
+                orderByChild: "email",
+                equalTo: loginForm.value.email
+              }
+            })
+            .subscribe(element => {
+              element.forEach(element => {
+                localStorage.setItem("type", element.type);
+                console.log("Type" + element.type);
+                this.router.navigateByUrl("/dashboard");
+              });
+            });
         })
         .catch(error => {
-          if(error.message=='There is no user record corresponding to this identifier. The user may have been deleted.'){
-          swal({
-            title: 'Algo anda mal!',
-            text: 'El email ingresado es incorrecto',
-            type: 'error',
-            confirmButtonText: 'Ok!'
-          });
-        }else if(error.message=='The password is invalid or the user does not have a password.'){
-          swal({
-            title: 'Algo anda mal!',
-            text: 'La contraseña ingresada es incorrecta o el usuario no posee contraseña!',
-            type: 'error',
-            confirmButtonText: 'Ok!'
-          });
-        }
-          console.log("Error:"+error);
+          if (
+            error.message ==
+            "There is no user record corresponding to this identifier. The user may have been deleted."
+          ) {
+            swal({
+              title: "Algo anda mal!",
+              text: "El email ingresado es incorrecto",
+              type: "error",
+              confirmButtonText: "Ok!"
+            });
+          } else if (
+            error.message ==
+            "The password is invalid or the user does not have a password."
+          ) {
+            swal({
+              title: "Algo anda mal!",
+              text:
+                "La contraseña ingresada es incorrecta o el usuario no posee contraseña!",
+              type: "error",
+              confirmButtonText: "Ok!"
+            });
+          }
+          console.log("Error:" + error);
         });
     }
   }
 
-
-  forgotPassword(){
+  forgotPassword() {
     swal({
-      title: 'Ingresa el email registrado a tu cuenta',
-      input: 'email'
-    }).then((email) =>{
-      this.fireAuth.auth.sendPasswordResetEmail(email).then(function() {
-        swal(
-          'Recupera tu cuenta!',
-          'Te hemos enviado un correo para restablecer tu contraseña!',
-          'success'
-        )
-      }, function(error) {
-        swal({
-          title: 'Algo anda mal!',
-          text: 'Correo no encontrado',
-          type: 'error',
-          confirmButtonText: 'Ok!'
-        });
-      });
-    })
-    
+      title: "Ingresa el email registrado a tu cuenta",
+      input: "email"
+    }).then(email => {
+      this.fireAuth.auth.sendPasswordResetEmail(email).then(
+        function() {
+          swal(
+            "Recupera tu cuenta!",
+            "Te hemos enviado un correo para restablecer tu contraseña!",
+            "success"
+          );
+        },
+        function(error) {
+          swal({
+            title: "Algo anda mal!",
+            text: "Correo no encontrado",
+            type: "error",
+            confirmButtonText: "Ok!"
+          });
+        }
+      );
+    });
   }
 }

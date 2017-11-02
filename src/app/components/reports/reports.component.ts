@@ -8,15 +8,15 @@ import { NgModel } from "@angular/forms";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
 import * as moment from "moment";
-import { 
-  FirebaseListObservable, 
-  AngularFireDatabase 
+import {
+  FirebaseListObservable,
+  AngularFireDatabase
 } from "angularfire2/database";
 import {
   AfoListObservable,
   AfoObjectObservable,
-  AngularFireOfflineDatabase } from 'angularfire2-offline/database';
-
+  AngularFireOfflineDatabase
+} from "angularfire2-offline/database";
 
 @Component({
   selector: "app-reports",
@@ -27,6 +27,7 @@ export class ReportsComponent implements OnInit {
   items: any;
   month: any;
   orders: any;
+  rules: any = { id: "", type: "", created: "" };
   orderList: any = [];
   productsList: any = [];
   itemsList: any = [];
@@ -44,7 +45,7 @@ export class ReportsComponent implements OnInit {
     private route: ActivatedRoute,
     public fireAuth: AngularFireAuth,
     public database: AngularFireDatabase,
-    public afoDatabase: AngularFireOfflineDatabase                                      
+    public afoDatabase: AngularFireOfflineDatabase
   ) {}
 
   ngOnInit() {
@@ -64,111 +65,97 @@ export class ReportsComponent implements OnInit {
     ];
     var d = new Date();
     this.month = monthNames[d.getMonth()];
-    this.items = this.afoDatabase
-      .list("/orders")
-      .subscribe(item => {
-        var orders: any = item;
-        orders.forEach((element, key) => {
-          var products = element.products;
-          products.forEach(element => {
-            if (this.productsList.indexOf(element.code) == -1) {
-              this.productsList.push(element.code);
-              this.cantList.push(parseInt(element.quantity));
-            } else {
-              this.cantList[
-                this.productsList.indexOf(element.code)
-              ] += parseInt(element.quantity);
-            }
-          });
-        });
-        this.cantList.forEach((element, key) => {
-          if (this.greater < element) {
-            this.greaterIndex = key;
-            this.greater = element;
-          }
-          if (this.less > element) {
-            this.less = element;
-            this.lessIndex = key;
-          }
-        });
-        this.items = this.afoDatabase
-          .object("/products/" + this.productsList[this.greaterIndex])
-          .subscribe(item => {
-            var product: any = item;
-            this.productSoldOut = {
-              name: product.name,
-              code: product.code,
-              points: product.points,
-              price: product.price,
-              image: product.image
-            };
-          });
-        this.items = this.afoDatabase
-          .object("/products/" + this.productsList[this.lessIndex])
-          .subscribe(item => {
-            var product: any = item;
-            this.productNotSoldOut = {
-              name: product.name,
-              code: product.code,
-              points: product.points,
-              price: product.price,
-              image: product.image
-            };
-          });
-      });
-    this.orders = this.afoDatabase
-      .list("/orders")
-      .subscribe(value => {
-        var order: any = value;
-        var userType: any;
-        var userName: any;
-        var userId: any;
-        order.forEach(element => {
-          if (element.user) {
-            console.log("hey"+JSON.stringify(element.products));
-            this.itemsList.push(element.products);
-            userType = "Usuario registrado";
-            console.log(element.user);
-            this.afoDatabase
-              .list("/users", {query:{
-                orderByChild:"id",
-                equalTo:element.id
-              }}
-              )
-              .subscribe(value => {
-                console.log(value);
-                var info: any = value;
-                userName = info[0].name + " " + info[0].lastname;
-                userId = info[0].id;
-                console.log(info[0].name);
-                this.orderList.push({
-                  created: element.created,
-                  type: userType,
-                  name: userName,
-                  id: userId,
-                  products: element.products,
-                  points: element.points,
-                  total: element.total
-                });
-              });
+    this.items = this.afoDatabase.list("/orders").subscribe(item => {
+      var orders: any = item;
+      orders.forEach((element, key) => {
+        var products = element.products;
+        products.forEach(element => {
+          if (this.productsList.indexOf(element.code) == -1) {
+            this.productsList.push(element.code);
+            this.cantList.push(parseInt(element.quantity));
           } else {
-            userType = "Usuario rápido";
-            userName = element.name + " " + element.lastname;
-            userId = element.id;
-            console.log("hey"+element.products);
-            this.itemsList.push(element.products);
+            this.cantList[this.productsList.indexOf(element.code)] += parseInt(
+              element.quantity
+            );
+          }
+        });
+      });
+      this.cantList.forEach((element, key) => {
+        console.log(this.greater + "," + element + "," + this.less);
+        if (this.greater < element) {
+          this.greaterIndex = key;
+          this.greater = element;
+        }
+        if (this.less > element) {
+          this.less = element;
+          this.lessIndex = key;
+        }
+      });
+      this.items = this.afoDatabase
+        .object("/products/" + this.productsList[this.greaterIndex])
+        .subscribe(item => {
+          var product: any = item;
+          this.productSoldOut = {
+            name: product.name,
+            code: product.code,
+            points: product.points,
+            price: product.price,
+            image: product.image
+          };
+        });
+      this.items = this.afoDatabase
+        .object("/products/" + this.productsList[this.lessIndex])
+        .subscribe(item => {
+          var product: any = item;
+          this.productNotSoldOut = {
+            name: product.name,
+            code: product.code,
+            points: product.points,
+            price: product.price,
+            image: product.image
+          };
+        });
+    });
+    this.orders = this.afoDatabase.list("/orders").subscribe(value => {
+      var order: any = value;
+      var userType: any;
+      var userName: any;
+      var userId: any;
+      order.forEach(element => {
+        console.log(element.user);
+        if (element.user) {
+          this.itemsList.push(element.products);
+          userType = "Usuario registrado";
+          this.afoDatabase.object("/users/" + element.user).subscribe(value => {
+            var info: any = value;
+            userName = info.name + " " + info.lastname;
+            userId = info.id;
             this.orderList.push({
-              created: moment(element.created).format("DD/MM/YYYY h:mm:ss"),
-              type: userType,
+              created: element.created,
+              type: "Usuario registrado",
               name: userName,
               id: userId,
-              products:(element.products),
+              products: element.products,
               points: element.points,
               total: element.total
             });
-          }
-        });
-        console.log(this.orderList);
+          });
+        } else {
+          userType = "Usuario rápido";
+          userName = element.name + " " + element.lastname;
+          userId = element.id;
+          this.itemsList.push(element.products);
+          this.orderList.push({
+            created: element.created,
+            type: userType,
+            name: userName,
+            id: userId,
+            products: element.products,
+            points: element.points,
+            total: element.total
+          });
+        }
       });
+    });
   }
 }

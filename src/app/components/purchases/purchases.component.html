@@ -11,7 +11,7 @@
     <button type="button" class="btn button-dashboard" [routerLink]="['/newPurchase']">Agregar Compra</button>
   </div>
 </div>
-<div class="row">
+<div class="row display-flex">
   <div class="col-xl-3 col-lg-3 col-md-3" *ngFor="let purchase of purchases | async | filter:rules">
     <div class="card" [routerLink]="['/purchaseDetails',purchase.$key]">
       <div class="header">
@@ -19,8 +19,8 @@
         <p class="category text-danger">{{purchase.datetime}}</p>
       </div>
       <div class="content">
-        <h5 class="text-black title">Productos:</h5>
-        <div class="card margin-bottom-d">
+        <!--<h5 class="text-black title">Productos:</h5>
+         <div class="card margin-bottom-d">
           <div *ngFor="let product of purchase.products" class="">
             <div class="row">
               <div class="col-md-7">
@@ -31,7 +31,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="card ">
           <h5 class="title paddindx">Total: {{purchase.total}}</h5>
         </div>

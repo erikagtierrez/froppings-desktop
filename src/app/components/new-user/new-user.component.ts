@@ -29,6 +29,8 @@ export class NewUserComponent implements OnInit {
   userId:any;
   userPoints:any;
   email:any;
+  image: any = "https://firebasestorage.googleapis.com/v0/b/froppings-dafe4.appspot.com/o/productodefault.png?alt=media&token=b2b3f10c-56d1-47ea-be79-f8c7abed1dca";  
+  password:any;
   selectedPermission:any;
 
   constructor(
@@ -58,15 +60,24 @@ export class NewUserComponent implements OnInit {
       cancelButtonText: "No, volver"
     }).then(_ => {
       console.log(this.userName+","+this.selectedPermission);
-      this.afoDatabase.list("/users").push({
-        name: this.userName,
-        lastname:this.userLastname,
-        id:this.userId,
-        email:this.email,
-        points:this.userPoints,
-        type:this.selectedPermission
-    }); 
-    this.router.navigateByUrl("/users");  
+      this.fireAuth.auth
+      .createUserWithEmailAndPassword(
+        this.email,
+        this.password
+      )
+      .then(success => {
+        console.log("UserCreated");
+        this.afoDatabase.list("/users").push({
+          name: this.userName,
+          lastname:this.userLastname,
+          id:this.userId,
+          email:this.email,
+          points:this.userPoints,
+          image:this.image,
+          type:this.selectedPermission
+      }); 
+      this.router.navigateByUrl("/users");
+      })  
   });
   }
   

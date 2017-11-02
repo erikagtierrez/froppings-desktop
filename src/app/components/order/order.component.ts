@@ -59,7 +59,7 @@ export class OrderComponent implements OnInit {
   isPromoCode = true;
   promotions = [];
   promotionSelected: string;
-
+  key:any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -153,6 +153,7 @@ export class OrderComponent implements OnInit {
           this.userPhone = re.phonenumer;
           this.userId = re.id;
           this.points = re.points;
+          this.key=re.$key;
         });
         this.gotData = true;
         this.found = true;
@@ -327,8 +328,9 @@ export class OrderComponent implements OnInit {
             datePartEnd[0]
           );
           if (today <= dateEnd && this.orderTotal > minPurchase) {
+            this.discount=(this.orderTotal*(this.discount/100));            
             this.orderTotal =
-              this.orderTotal - this.orderTotal * (this.discount / 100);
+              this.orderTotal -this.discount;
             this.discountButton = "Quitar Descuento";
             this.couponCode = "";
           } else {
@@ -412,7 +414,7 @@ export class OrderComponent implements OnInit {
     // playground requires you to assign document definition to a variable called d;
     var columnsName: any = [];
     var ivaTotal = this.orderTotal * (this.iva / 100);
-    var subTotal = this.orderTotal - ivaTotal;
+    var subTotal = this.orderTotal + ivaTotal;
     this.productList.forEach((element, key) => {
       columnsName.push({
         columns: [
@@ -570,7 +572,7 @@ export class OrderComponent implements OnInit {
             points: this.pointsCount,
             products: this.productList,
             total: this.orderTotal,
-            user: this.userId
+            user: this.userDataUID
           })
           .then(_ => this.savePayment());
       } else {
@@ -585,7 +587,7 @@ export class OrderComponent implements OnInit {
               points: this.pointsCount,
               products: this.productList,
               total: totalValue,
-              user: this.fireAuth.auth.currentUser.uid
+              user:  this.userDataUID
             })
             .then(_ => this.savePayment());
         } else {
@@ -598,7 +600,7 @@ export class OrderComponent implements OnInit {
               points: this.pointsCount,
               products: this.productList,
               total: 0,
-              user: this.fireAuth.auth.currentUser.uid
+              user:  this.userDataUID
             })
             .then(_ => this.savePayment());
         }

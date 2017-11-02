@@ -7,19 +7,6 @@
         <input type="password" class="form-control" ngModel name="password" placeholder="Contraseña" required>
         <p class="text-center" (click)="forgotPassword()">¿Olvidaste tu contraseña?</p>
         <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-fill">Iniciar sesión</button>
-        <p class="text-center paddingtoplittle">Conecta con:</p>
-        <div class="col-md-12 socialbutton">
-          <div class="col-md-6">
-            <a class="btn btn-info  btn-fill btn-google" (click)="googleLogin()">
-                  <span class="fa fa-google"></span>
-                </a>
-          </div>
-          <div class="col-md-6">
-            <a class="btn btn-info col-md-6 btn-fill btn-facebook" (click)="fbLogin()">
-                    <span class="fa fa-facebook"></span>
-                  </a>
-          </div>
-        </div>
         <div class="col-md-12">
           <p class="text-center paddingtoplittle" *ngIf="false" (click)="isRegistration=!isRegistration">¿No estás registrado?</p>
         </div>
@@ -48,11 +35,11 @@
       <p class="text-center paddingtoplittle" *ngIf="!useProvider" (click)="isRegistration=!isRegistration">Regístrate usando:</p>
       <div class="col-md-4 col-md-offset-4 socialbutton" *ngIf="!useProvider">
         <a class="btn btn-social-icon btn-google" (click)="googleRegister()">
-              <span class="fa fa-google"></span>
-            </a>
+          <span class="fa fa-google"></span>
+        </a>
         <a class="btn btn-social-icon btn-facebook" (click)="fbRegister()">
-                  <span class="fa fa-facebook"></span>
-                </a>
+          <span class="fa fa-facebook"></span>
+        </a>
       </div>
       <div class="col-md-12" *ngIf="useProvider">
         <button type="submit" class="btn btn-simple text-center paddingtoplittle" (click)="useProvider=!useProvider">Volver a registro basico

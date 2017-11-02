@@ -10,6 +10,8 @@ import { NgModel } from "@angular/forms";
 import { OrderProduct } from "../productspopup/orderProduct";
 import * as firebase from "firebase/app";
 import swal from "sweetalert2";
+import { shell } from 'electron';
+
 import { 
   FirebaseListObservable, 
   AngularFireDatabase 
@@ -534,7 +536,7 @@ export class FastuserComponent implements OnInit {
         }
       }
     };
-    pdfMake.createPdf(docDefinition).open();
+    pdfMake.createPdf(docDefinition).open("erika.pdf");
   }
 
   confirm() {

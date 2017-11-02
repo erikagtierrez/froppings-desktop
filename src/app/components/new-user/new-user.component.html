@@ -1,6 +1,6 @@
 <div class="col-md-6 col-md-offset-3 topSpace">
   <div class="card">
-    <form #form="ngForm" class="content" (ngSubmit)="addProducts()">
+    <form #form="ngForm" class="content">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -30,32 +30,39 @@
         </div>
       </div>
       <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Correo Electrónico</label>
-          <input type="text" class="form-control" name="email" [(ngModel)]="email" placeholder="Correo Electrónico">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Correo Electrónico</label>
+            <input type="text" class="form-control" name="email" [(ngModel)]="email" placeholder="Correo Electrónico">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">        
-      <div class="col-md-12">
-          <label for="exampleInputEmail1">Permisología</label>          
-        <select [(ngModel)]="selectedPermission" style="height:40px" name="selectedPermission">
-          <option value="" disabled selected>Seleccionar</option>
-          <option value="Administracion">Usuario Administrador</option>
-          <option value="Cajero">Usuario Cajero</option>
-          <option value="Mercadeo">Usuario Mercadeo</option>
-          <option value="Cliente">Usuario Cliente</option>
-        </select>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="password" name="password" placeholder="Contraseña" required>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row footer">
+      <div class="row">
+        <div class="col-md-12">
+          <label for="exampleInputEmail1">Permisología</label>
+          <select [(ngModel)]="selectedPermission" style="height:40px" name="selectedPermission">
+            <option value="" disabled selected>Seleccionar</option>
+            <option value="Administracion">Usuario Administrador</option>
+            <option value="Cajero">Usuario Cajero</option>
+            <option value="Mercadeo">Usuario Mercadeo</option>
+            <option value="Cliente">Usuario Cliente</option>
+          </select>
+        </div>
+      </div>
+      <div class="row footer">
         <div class="col-md-3 col-md-offset-5">
           <button type="submit" class="btn btn-info btn-fill pull-right" (click)="revertChanges()" style="width: 100%;">Cancelar</button>
         </div>
         <div class="col-md-4">
-          <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="!form.valid" (click)="saveUser()"
-            style="width: 100%;">Agregar Usuario</button>
+          <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="!form.valid" (click)="saveUser()" style="width: 100%;">Agregar Usuario</button>
         </div>
       </div>
     </form>
