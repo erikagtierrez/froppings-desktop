@@ -76,7 +76,6 @@ export class NewUserComponent implements OnInit {
           image:this.image,
           type:this.selectedPermission
       }); 
-      this.router.navigateByUrl("/users");
       })  
   });
   }

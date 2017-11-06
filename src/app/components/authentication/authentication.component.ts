@@ -47,7 +47,7 @@ export class AuthenticationComponent implements OnInit {
     this.fireAuth.authState.subscribe(auth => {
       if (auth) {
         console.log("AUTH: " + auth);
-        this.router.navigateByUrl("/dashboard");
+        //this.router.navigateByUrl("/dashboard");
       }
     });
   }

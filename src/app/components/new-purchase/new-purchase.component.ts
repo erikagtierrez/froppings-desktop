@@ -80,7 +80,7 @@ export class NewPurchaseComponent implements OnInit {
     });
     console.log(this.purchaseTotal);
     this.purchaseTotal =
-      this.purchaseTotal - this.purchaseTotal * (this.iva / 100);
+      this.purchaseTotal + this.purchaseTotal * (this.iva / 100);
     console.log(this.products);
   }
 
